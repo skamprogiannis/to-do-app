@@ -56,15 +56,28 @@ h6 {
   isolation: isolate;
 }
 
+:root {
+  --primary-bg-color: rgb(240, 232, 248);
+  --header-border-color: rgb(236, 164, 8);
+  --sidebar-bg-color: rgb(201, 201, 53);
+  --confirm-btn-bg-color: rgb(28, 146, 28);
+  --cancel-btn-bg-color: rgb(187, 16, 16);
+  --confirm-btn-hover-bg-color: rgb(56, 176, 56); 
+  --cancel-btn-hover-bg-color: rgb(219, 58, 58);
+  --btn-shadow: rgba(0, 0, 0, 0.2);
+  --btn-shadow-hover: rgba(0, 0, 0, 0.3);
+}
+
+
 body {
-  background-color: rgb(240, 232, 248);
+  background-color: var(--primary-bg-color);
 }
 
 header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom: 2px solid rgb(236, 164, 8);
+  border-bottom: 2px solid var(--header-border-color);
   padding-bottom: 15px;
 }
 
@@ -75,7 +88,55 @@ main {
 #sidebar {
   flex: 1;
 }
+
 #todo-container {
-  background-color: rgb(201, 201, 53);
+  background-color: var(--sidebar-bg-color);
   flex: 1;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 55%;
+}
+
+form .button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+form button {
+  font-size: 0.9rem;
+  margin: 5px;
+  border: none;
+  padding: 5px 25px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 8px var(--btn-shadow);
+}
+
+form .confirm-button {
+  background-color: var(--confirm-btn-bg-color);
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+form .confirm-button:hover {
+  background-color: var(--confirm-btn-hover-bg-color);
+  box-shadow: 0 6px 12px var(--btn-shadow-hover);
+  transform: translateY(-2px);
+}
+
+form .cancel-button {
+  background-color: rgb(187, 16, 16);
+  color: white;
+}
+
+form .cancel-button:hover {
+  background-color: var(--cancel-btn-hover-bg-color);
+  box-shadow: 0 6px 12px var(--btn-shadow-hover);
+  transform: translateY(-2px);
 }
