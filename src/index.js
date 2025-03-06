@@ -1,2 +1,4 @@
 import "./styles.css";
-import ToDo from './ToDos.js'; // Import the class
+import ToDo from './ToDo.js';
+import Project from './projects.js';
+
