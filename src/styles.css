@@ -57,5 +57,25 @@ h6 {
 }
 
 body {
-  background-color: rgb(104, 93, 116);
+  background-color: rgb(240, 232, 248);
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 2px solid rgb(236, 164, 8);
+  padding-bottom: 15px;
+}
+
+main {
+  display: flex;
+}
+
+#sidebar {
+  flex: 1;
+}
+#todo-container {
+  background-color: rgb(201, 201, 53);
+  flex: 1;
 }
