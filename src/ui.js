@@ -3,7 +3,9 @@ function renderProjects(projects) {
   projectList.innerHTML = "";
   projects.forEach((element) => {
     const listItem = document.createElement("li");
-    listItem.textContent = element.name;
+    const projectButton = document.createElement("button");
+    projectButton.textContent = element.name;
+    listItem.appendChild(projectButton);
     projectList.appendChild(listItem);
   });
 }
@@ -32,6 +34,5 @@ function createProjectForm() {
 
   return newProjectForm;
 }
-
 
 export const ui = { renderProjects, createProjectForm };
