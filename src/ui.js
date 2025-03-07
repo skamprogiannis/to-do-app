@@ -16,6 +16,7 @@ function createProjectForm() {
   projectNameInput.setAttribute("type", "text");
   projectNameInput.setAttribute("placeholder", "Enter Project Name");
   projectNameInput.setAttribute("maxLength", "24");
+  projectNameInput.setAttribute("aria-label", "Project Name");
   newProjectForm.appendChild(projectNameInput);
 
   const buttonContainer = document.createElement("div");
