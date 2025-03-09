@@ -1,11 +1,26 @@
 function renderProjects(projects) {
   const projectList = document.querySelector("#project-list");
   projectList.innerHTML = "";
-  projects.forEach((element) => {
+  projects.forEach((project, index) => {
     const listItem = document.createElement("li");
     const projectButton = document.createElement("button");
-    projectButton.textContent = element.name;
+    projectButton.textContent = project.name;
     listItem.appendChild(projectButton);
+
+    const editButton = document.createElement("button");
+    editButton.innerHTML = '<img src="/images/edit_note_32dp.png">';
+    editButton.classList.add("edit-project-btn");
+    editButton.dataset.index = index;
+    editButton.setAttribute("aria-label", `Edit ${project.name}`);
+    listItem.appendChild(editButton);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.innerHTML = '<img src="/images/delete_32dp.png">';
+    deleteButton.classList.add("delete-project-btn");
+    deleteButton.dataset.index = index;
+    deleteButton.setAttribute("aria-label", `Delete ${project.name}`);
+    listItem.appendChild(deleteButton);
+
     projectList.appendChild(listItem);
   });
 }
@@ -17,6 +32,7 @@ function createProjectForm() {
   projectNameInput.setAttribute("placeholder", "Enter Project Name");
   projectNameInput.setAttribute("maxLength", "24");
   projectNameInput.setAttribute("aria-label", "Project Name");
+
   newProjectForm.appendChild(projectNameInput);
 
   const buttonContainer = document.createElement("div");

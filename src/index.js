@@ -66,6 +66,8 @@ const projectManager = {
     this.projects.push(newProject);
     localStorage.setItem("projects", JSON.stringify(this.projects));
   },
+
+
 };
 
 projectManager.initialize();

@@ -57,9 +57,9 @@ h6 {
 }
 
 :root {
-  --primary-bg-color: rgb(240, 232, 248);
+  --header-bg-color: rgb(51, 51, 51);
   --header-border-color: rgb(236, 164, 8);
-  --sidebar-bg-color: rgb(201, 201, 53);
+  --sidebar-bg-color: rgb(221, 221, 221);
   --confirm-btn-bg-color: rgb(28, 146, 28);
   --cancel-btn-bg-color: rgb(187, 16, 16);
   --confirm-btn-hover-bg-color: rgb(56, 176, 56);
@@ -70,16 +70,14 @@ h6 {
   --input-shadow: rgba(74, 144, 226, 0.5);
 }
 
-body {
-  background-color: var(--primary-bg-color);
-}
-
 header {
   display: flex;
   flex-direction: column;
   align-items: center;
   border-bottom: 2px solid var(--header-border-color);
   padding-bottom: 15px;
+  background-color: var(--header-bg-color);
+  color: white;
 }
 
 main {
@@ -87,11 +85,11 @@ main {
 }
 
 #sidebar {
-  flex: 1;
+  flex: 0.2;
+  background-color: var(--sidebar-bg-color);
 }
 
 #todo-container {
-  background-color: var(--sidebar-bg-color);
   flex: 1;
 }
 
@@ -153,4 +151,33 @@ form .cancel-button:hover {
   background-color: var(--cancel-btn-hover-bg-color);
   box-shadow: 0 6px 12px var(--btn-shadow-hover);
   transform: translateY(-2px);
+}
+
+#project-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.project-name-btn {
+  flex-grow: 1;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.edit-project-btn, .delete-project-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 50%;
+  margin-left: 5px;
+  transition: background-color 0.2s;
+  width: 30px;
+  height: auto;
+}
+
+.edit-project-btn:hover, .delete-project-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
