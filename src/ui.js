@@ -12,7 +12,7 @@ function renderProjects(projects) {
 
 function createProjectForm() {
   const newProjectForm = document.createElement("form");
-  const projectNameInput = document.createElement("INPUT");
+  const projectNameInput = document.createElement("input");
   projectNameInput.setAttribute("type", "text");
   projectNameInput.setAttribute("placeholder", "Enter Project Name");
   projectNameInput.setAttribute("maxLength", "24");

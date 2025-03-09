@@ -62,12 +62,13 @@ h6 {
   --sidebar-bg-color: rgb(201, 201, 53);
   --confirm-btn-bg-color: rgb(28, 146, 28);
   --cancel-btn-bg-color: rgb(187, 16, 16);
-  --confirm-btn-hover-bg-color: rgb(56, 176, 56); 
+  --confirm-btn-hover-bg-color: rgb(56, 176, 56);
   --cancel-btn-hover-bg-color: rgb(219, 58, 58);
   --btn-shadow: rgba(0, 0, 0, 0.2);
   --btn-shadow-hover: rgba(0, 0, 0, 0.3);
+  --input-border: #4a90e2;
+  --input-shadow: rgba(74, 144, 226, 0.5);
 }
-
 
 body {
   background-color: var(--primary-bg-color);
@@ -98,6 +99,19 @@ form {
   display: flex;
   flex-direction: column;
   max-width: 55%;
+}
+
+form input {
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  padding: 5px;
+  outline: none;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+form input:focus {
+  border-color: var(--input-border);
+  box-shadow: 0 0 6px var(--input-shadow);
 }
 
 form .button-container {
