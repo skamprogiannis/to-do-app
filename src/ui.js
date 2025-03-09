@@ -5,22 +5,28 @@ function renderProjects(projects) {
     const listItem = document.createElement("li");
     const projectButton = document.createElement("button");
     projectButton.textContent = project.name;
+    projectButton.classList.add("project-name-btn");
     listItem.appendChild(projectButton);
+
+    const buttonContainer = document.createElement("div");
+    buttonContainer.classList.add("project-button-container");
 
     const editButton = document.createElement("button");
     editButton.innerHTML = '<img src="/images/edit_note_32dp.png">';
     editButton.classList.add("edit-project-btn");
     editButton.dataset.index = index;
     editButton.setAttribute("aria-label", `Edit ${project.name}`);
-    listItem.appendChild(editButton);
+    buttonContainer.appendChild(editButton);
+
 
     const deleteButton = document.createElement("button");
     deleteButton.innerHTML = '<img src="/images/delete_32dp.png">';
     deleteButton.classList.add("delete-project-btn");
     deleteButton.dataset.index = index;
     deleteButton.setAttribute("aria-label", `Delete ${project.name}`);
-    listItem.appendChild(deleteButton);
+    buttonContainer.appendChild(deleteButton);
 
+    listItem.appendChild(buttonContainer);
     projectList.appendChild(listItem);
   });
 }
