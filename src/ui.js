@@ -9,7 +9,7 @@ function renderProjects(projects) {
     listItem.appendChild(projectButton);
 
     const buttonContainer = document.createElement("div");
-    buttonContainer.classList.add("project-button-container");
+    buttonContainer.classList.add("project-actions-container");
 
     const editButton = document.createElement("button");
     editButton.innerHTML = '<img src="/images/edit_note_32dp.png">';

@@ -93,8 +93,8 @@ main {
 }
 
 #sidebar {
-  flex: 0.2 0 auto;
-  width: 20%;
+  flex: 0.25;
+  min-width: 150px;
   background-color: var(--sidebar-bg-color);
   overflow-y: auto;
   border-right: 2px solid var(--section-border-color);
@@ -122,12 +122,6 @@ form input {
 form input:focus {
   border-color: var(--input-border);
   box-shadow: 0 0 6px var(--input-shadow);
-}
-
-form .button-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
 }
 
 form button {
@@ -175,15 +169,22 @@ form .cancel-button:hover {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 8px;
+  flex-wrap: nowrap;
 }
 
 .project-name-btn {
   flex-grow: 1;
   text-align: left;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   background: none;
   border: none;
+}
+
+.project-actions-container {
+  display: flex;
+  flex-shrink: 0;
 }
 
 .edit-project-btn,
