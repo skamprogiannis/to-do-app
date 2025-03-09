@@ -92,7 +92,7 @@ main {
   overflow: hidden;
 }
 
-#sidebar {
+.sidebar {
   flex: 0.15;
   min-width: 135px;
   background-color: var(--sidebar-bg-color);

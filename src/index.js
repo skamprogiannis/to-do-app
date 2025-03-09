@@ -69,8 +69,8 @@ const projectManager = {
   },
 
   shiaSurprise() {
-    const shiaVideoLink = document.getElementById("shia-surprise");
-    const todoContainer = document.getElementById("todo-container");
+    const shiaVideoLink = document.querySelector(".shia-surprise");
+    const todoContainer = document.querySelector(".todo-container");
 
     shiaVideoLink.addEventListener("click", function (event) {
       event.preventDefault();
