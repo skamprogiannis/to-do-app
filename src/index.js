@@ -6,14 +6,10 @@ import { ui } from "./ui.js";
 const projectManager = {
   projects: [],
 
-  addProjectButton: document.querySelector(".add-project"),
-
   initialize() {
     this.loadProjectsFromLocalStorage();
     this.shiaSurprise();
-    this.addProjectButton.addEventListener("click", () =>
-      this.handleAddProjectClick()
-    );
+    this.addProjectClick();
   },
 
   loadProjectsFromLocalStorage() {
@@ -22,19 +18,22 @@ const projectManager = {
     ui.renderProjects(this.projects);
   },
 
-  handleAddProjectClick() {
-    this.addProjectButton.disabled = true;
-    const projectList = document.querySelector(".project-list");
-    const newProjectForm = ui.createProjectForm();
-    projectList.appendChild(newProjectForm);
+  addProjectClick() {
+    const addProjectButton = document.querySelector(".add-project");
+    addProjectButton.addEventListener("click", () => {
+      addProjectButton.disabled = true;
+      const projectList = document.querySelector(".project-list");
+      const newProjectForm = ui.createProjectForm();
+      projectList.appendChild(newProjectForm);
 
-    const projectNameInput = newProjectForm.querySelector("input");
-    projectNameInput.focus();
+      const projectNameInput = newProjectForm.querySelector("input");
+      projectNameInput.focus();
 
-    newProjectForm.addEventListener("submit", (event) =>
-      this.handleProjectFormSubmit(event)
-    );
-    this.attachProjectFormButtonEventListeners(newProjectForm);
+      newProjectForm.addEventListener("submit", (event) =>
+        this.handleProjectFormSubmit(event)
+      );
+      this.attachProjectFormButtonEventListeners(newProjectForm);
+    });
   },
 
   handleProjectFormSubmit(event) {
