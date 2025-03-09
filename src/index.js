@@ -10,6 +10,7 @@ const projectManager = {
 
   initialize() {
     this.loadProjectsFromLocalStorage();
+    this.shiaSurprise();
     this.addProjectButton.addEventListener("click", () =>
       this.handleAddProjectClick()
     );
@@ -67,7 +68,22 @@ const projectManager = {
     localStorage.setItem("projects", JSON.stringify(this.projects));
   },
 
+  shiaSurprise() {
+    const shiaVideoLink = document.getElementById("shia-surprise");
+    const todoContainer = document.getElementById("todo-container");
 
+    shiaVideoLink.addEventListener("click", function (event) {
+      event.preventDefault();
+      const iframe = document.createElement("iframe");
+      iframe.src = "https://www.youtube.com/embed/ZXsQAXx_ao0?autoplay=1";
+      iframe.width = "100%";
+      iframe.height = "100%";
+      iframe.allow = "autoplay;";
+
+      todoContainer.innerHTML = "";
+      todoContainer.appendChild(iframe);
+    });
+  },
 };
 
 projectManager.initialize();
