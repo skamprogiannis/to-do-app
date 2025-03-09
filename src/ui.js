@@ -1,5 +1,5 @@
 function renderProjects(projects) {
-  const projectList = document.querySelector("#project-list");
+  const projectList = document.querySelector(".project-list");
   projectList.innerHTML = "";
   projects.forEach((project, index) => {
     const listItem = document.createElement("li");

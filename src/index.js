@@ -6,7 +6,7 @@ import { ui } from "./ui.js";
 const projectManager = {
   projects: [],
 
-  addProjectButton: document.querySelector("#add-project"),
+  addProjectButton: document.querySelector(".add-project"),
 
   initialize() {
     this.loadProjectsFromLocalStorage();
@@ -24,7 +24,7 @@ const projectManager = {
 
   handleAddProjectClick() {
     this.addProjectButton.disabled = true;
-    const projectList = document.querySelector("#project-list");
+    const projectList = document.querySelector(".project-list");
     const newProjectForm = ui.createProjectForm();
     projectList.appendChild(newProjectForm);
 
@@ -44,7 +44,7 @@ const projectManager = {
     const newProject = new Project(projectNameInput.value);
     this.saveProject(newProject);
 
-    document.querySelector("#add-project").disabled = false;
+    document.querySelector(".add-project").disabled = false;
     newProjectForm.reset();
     ui.renderProjects(this.projects);
   },
@@ -59,7 +59,7 @@ const projectManager = {
 
     cancelButton.addEventListener("click", () => {
       newProjectForm.remove();
-      document.querySelector("#add-project").disabled = false;
+      document.querySelector(".add-project").disabled = false;
     });
   },
 

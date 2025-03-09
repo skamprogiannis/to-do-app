@@ -93,14 +93,18 @@ main {
 }
 
 #sidebar {
-  flex: 0.25;
-  min-width: 150px;
+  flex: 0.15;
+  min-width: 135px;
   background-color: var(--sidebar-bg-color);
   overflow-y: auto;
   border-right: 2px solid var(--section-border-color);
 }
 
-#todo-container {
+.sidebar h2 {
+  text-align: center;
+}
+
+.todo-container {
   flex: 1;
   overflow-y: auto;
 }
@@ -159,11 +163,11 @@ form .cancel-button:hover {
   transform: translateY(-2px);
 }
 
-#project-list {
+.project-list {
   padding-left: 0;
 }
 
-#project-list li {
+.project-list li {
   display: flex;
   list-style: none;
   align-items: center;
