@@ -27,6 +27,9 @@ const projectManager = {
     const newProjectForm = ui.createProjectForm();
     projectList.appendChild(newProjectForm);
 
+    const projectNameInput = newProjectForm.querySelector("input");
+    projectNameInput.focus();
+
     newProjectForm.addEventListener("submit", (event) =>
       this.handleProjectFormSubmit(event)
     );
