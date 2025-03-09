@@ -53,7 +53,11 @@ const projectManager = {
     const cancelButton = newProjectForm.querySelector(".cancel-button");
 
     confirmButton.addEventListener("click", () => {
-      newProjectForm.dispatchEvent(new Event("submit"));
+      if (newProjectForm.checkValidity()) {
+        newProjectForm.requestSubmit();
+      } else {
+        newProjectForm.reportValidity();
+      }
     });
 
     cancelButton.addEventListener("click", () => {

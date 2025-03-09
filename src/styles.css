@@ -66,12 +66,18 @@ h6 {
   --cancel-btn-hover-bg-color: rgb(219, 58, 58);
   --btn-shadow: rgba(0, 0, 0, 0.2);
   --btn-shadow-hover: rgba(0, 0, 0, 0.3);
+  --scrollbar-dark-grey: #6c757d;
+  --scrollbar-light-grey: #e0e0e0;
+  --add-project-button-color: #4a90e2;
+  --add-project-button-hover: #2a6fc9;
   --input-border: #4a90e2;
   --input-shadow: rgba(74, 144, 226, 0.5);
 }
 
+html,
 body {
   min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -102,69 +108,59 @@ main {
 
 .sidebar h2 {
   text-align: center;
+  font-size: 1.2rem;
+  margin: 15px 0 10px;
+  color: #333;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  flex-shrink: 0;
 }
 
-.todo-container {
-  flex: 1;
-  overflow-y: auto;
-}
-
-form {
+.sidebar nav {
   display: flex;
   flex-direction: column;
-  max-width: 55%;
+  height: 100%;
 }
 
-form input {
-  border: 2px solid #ddd;
-  border-radius: 6px;
-  padding: 5px;
-  outline: none;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+.sidebar .home {
+  padding: 0 15px;
+  flex-shrink: 0;
 }
 
-form input:focus {
-  border-color: var(--input-border);
-  box-shadow: 0 0 6px var(--input-shadow);
+.home ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 25px;
 }
 
-form button {
-  font-size: 0.9rem;
-  margin: 5px;
+.home ul li button {
+  display: flex;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
   border: none;
-  padding: 5px 25px;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 8px var(--btn-shadow);
-}
-
-form .confirm-button {
-  background-color: var(--confirm-btn-bg-color);
-  color: white;
-  padding: 10px 20px;
+  background: none;
+  border-radius: 6px;
+  margin: 2px 0;
+  transition: background-color 0.2s;
   cursor: pointer;
 }
 
-form .confirm-button:hover {
-  background-color: var(--confirm-btn-hover-bg-color);
-  box-shadow: 0 6px 12px var(--btn-shadow-hover);
-  transform: translateY(-2px);
+.home ul li button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
-form .cancel-button {
-  background-color: rgb(187, 16, 16);
-  color: white;
-}
-
-form .cancel-button:hover {
-  background-color: var(--cancel-btn-hover-bg-color);
-  box-shadow: 0 6px 12px var(--btn-shadow-hover);
-  transform: translateY(-2px);
+.sidebar .projects {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .project-list {
   padding-left: 0;
+  flex: 1;
+  padding-bottom: 15px;
+  overflow-y: auto;
 }
 
 .project-list li {
@@ -172,7 +168,7 @@ form .cancel-button:hover {
   list-style: none;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   flex-wrap: nowrap;
 }
 
@@ -184,11 +180,23 @@ form .cancel-button:hover {
   text-overflow: ellipsis;
   background: none;
   border: none;
+  cursor: pointer;
 }
 
 .project-actions-container {
   display: flex;
   flex-shrink: 0;
+}
+
+.project-name-btn {
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.project-actions-container button {
+  opacity: 0.7;
+  transition: opacity 0.2s;
 }
 
 .edit-project-btn,
@@ -203,7 +211,104 @@ form .cancel-button:hover {
   height: auto;
 }
 
+.project-name-btn:hover,
 .edit-project-btn:hover,
 .delete-project-btn:hover {
   background-color: rgba(0, 0, 0, 0.1);
+  opacity: 1;
+}
+
+.project-list::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.project-list::-webkit-scrollbar-track {
+  background: var(--scrollbar-light-grey);
+  border-radius: 10px;
+}
+
+.project-list::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-dark-grey);
+  border-radius: 10px;
+  border: 2px solid var(--scrollbar-light-grey);
+}
+
+.add-project {
+  flex-shrink: 0;
+  background-color: transparent;
+  border: none;
+  color: var(--add-project-button-color);
+  font-weight: 600;
+  margin: 10px 0px;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  text-align: center;
+}
+
+.add-project:hover {
+  color: var(--add-project-button-hover);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form input {
+  align-self: center;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  padding: 5px;
+  outline: none;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+form input:focus {
+  border-color: var(--input-border);
+  box-shadow: 0 0 6px var(--input-shadow);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+form .confirm-button,
+form .cancel-button {
+  color: white;
+  font-size: 0.9rem;
+  margin: 5px;
+  border: none;
+  padding: 8px 25px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 8px var(--btn-shadow);
+}
+
+form .confirm-button {
+  background-color: var(--confirm-btn-bg-color);
+}
+
+form .confirm-button:hover {
+  background-color: var(--confirm-btn-hover-bg-color);
+  box-shadow: 0 6px 12px var(--btn-shadow-hover);
+  transform: translateY(-2px);
+}
+
+form .cancel-button {
+  background-color: var(--cancel-btn-bg-color);
+}
+
+form .cancel-button:hover {
+  background-color: var(--cancel-btn-hover-bg-color);
+  box-shadow: 0 6px 12px var(--btn-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.todo-container {
+  flex: 1;
+  overflow-y: auto;
 }
