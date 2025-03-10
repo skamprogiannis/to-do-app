@@ -36,7 +36,7 @@ const projectManager = {
   addProjectClick() {
     const addProjectButton = document.querySelector(".add-project");
     addProjectButton.addEventListener("click", () => {
-      addProjectButton.disabled = true;
+      this.disableProjectButtons(true);
       const projectList = document.querySelector(".project-list");
       const newProjectForm = ui.createProjectForm();
       projectList.appendChild(newProjectForm);
@@ -58,40 +58,43 @@ const projectManager = {
     const newProject = new Project(projectNameInput.value.trim());
     this.saveProjectData(newProject);
 
-    document.querySelector(".add-project").disabled = false;
+    this.disableProjectButtons(false);
     newProjectForm.reset();
     ui.renderProjects(this.projects);
   },
 
-  attachProjectFormButtonEventListeners(newProjectForm) {
-    const confirmButton = newProjectForm.querySelector(".confirm-button");
-    const cancelButton = newProjectForm.querySelector(".cancel-button");
+  attachProjectFormButtonEventListeners(projectForm) {
+    const confirmButton = projectForm.querySelector(".confirm-button");
+    const cancelButton = projectForm.querySelector(".cancel-button");
 
     confirmButton.addEventListener("click", () => {
-      if (newProjectForm.checkValidity()) {
-        newProjectForm.requestSubmit();
+      if (projectForm.checkValidity()) {
+        projectForm.requestSubmit();
       } else {
-        newProjectForm.reportValidity();
+        projectForm.reportValidity();
       }
     });
 
     cancelButton.addEventListener("click", () => {
-      newProjectForm.remove();
-      document.querySelector(".add-project").disabled = false;
+      projectForm.remove();
+      this.disableProjectButtons(false);
     });
   },
 
-  editProjectName() { // fix
+  editProjectName() {
     const projectList = document.querySelector(".project-list");
     projectList.addEventListener("click", (event) => {
-      if (event.target.classList.contains("edit-project-btn")) {
+      if (
+        event.target.classList.contains("edit-project-btn") ||
+        event.target.parentElement.classList.contains("edit-project-btn")
+      ) {
+        const editButton = event.target.classList.contains("edit-project-btn")
+          ? event.target
+          : event.target.parentElement;
 
-        console.log("Edit button clicked!"); // Debugging log
+        this.disableProjectButtons(true);
 
-        const addProjectButton = document.querySelector(".add-project");
-        addProjectButton.disabled = true;
-
-        const projectIndex = event.target.dataset.index;
+        const projectIndex = editButton.dataset.index;
         const linkedProject = this.projects[projectIndex];
         const currentProjectName = linkedProject.name;
         const editProjectNameForm = ui.editProjectNameForm(currentProjectName);
@@ -121,11 +124,20 @@ const projectManager = {
     projectToEdit.editName(updatedProjectName);
     this.editProjectData(projectToEdit, projectIndex);
 
-    const addProjectButton = document.querySelector(".add-project");
-    addProjectButton.disabled = false;
+    this.disableProjectButtons(false);
 
     editProjectNameForm.reset(); //Is this necessary?
     ui.renderProjects(this.projects);
+  },
+
+  disableProjectButtons(boolean) {
+    const addProjectButton = document.querySelector(".add-project");
+    const editProjectButtons = document.querySelectorAll(".edit-project-btn");
+    const deleteProjectButtons = document.querySelectorAll(".delete-project-btn");
+
+    addProjectButton.disabled = boolean;
+    editProjectButtons.forEach(button => button.disabled = boolean);
+    deleteProjectButtons.forEach(button => button.disable = boolean);
   },
 
   shiaSurprise() {
