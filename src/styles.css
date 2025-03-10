@@ -211,12 +211,17 @@ main {
 
 .sidebar h2 {
   text-align: center;
+  text-transform: uppercase;
+  font-family: 'Arial', sans-serif;
   font-size: 1.2rem;
   margin: 15px 0 10px;
-  color: #333;
+  color: white;
   font-weight: 600;
-  letter-spacing: 0.7px;
+  letter-spacing: 0.8px;
+  padding: 10px;
+  border-radius: 6px;
   flex-shrink: 0;
+  background: linear-gradient(to right, #68af7c, #4cae3d);
 }
 
 .sidebar nav {
@@ -255,6 +260,7 @@ main {
 
 .sidebar .projects {
   display: flex;
+  padding: 0 15px;
   flex-direction: column;
   overflow: hidden;
 }
@@ -481,4 +487,3 @@ form .cancel-button:hover {
   flex: 1;
   overflow-y: auto;
 }
-
