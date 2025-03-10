@@ -49,15 +49,15 @@ function createProjectForm() {
   buttonContainer.classList.add("button-container");
   newProjectForm.appendChild(buttonContainer);
 
-  const confirmButton = document.createElement("button");
-  confirmButton.textContent = "Confirm";
-  confirmButton.classList.add("confirm-button");
-  buttonContainer.appendChild(confirmButton);
-
   const cancelButton = document.createElement("button");
   cancelButton.textContent = "Cancel";
   cancelButton.classList.add("cancel-button");
   buttonContainer.appendChild(cancelButton);
+
+  const confirmButton = document.createElement("button");
+  confirmButton.textContent = "Confirm";
+  confirmButton.classList.add("confirm-button");
+  buttonContainer.appendChild(confirmButton);
 
   return newProjectForm;
 }
@@ -69,4 +69,43 @@ function editProjectNameForm(projectName) {
   return editProjectForm;
 }
 
-export const ui = { renderProjects, createProjectForm, editProjectNameForm };
+function createDeleteModal(projectName, projectIndex) {
+  const modalOverlay = document.createElement("div");
+  modalOverlay.classList.add("modal-overlay"); 
+  const modalContainer = document.createElement("div");
+  modalContainer.classList.add("delete-modal");
+  modalContainer.dataset.projectIndex = projectIndex;
+  
+  const modalHeader = document.createElement("div");
+  modalHeader.classList.add("modal-header"); 
+  const modalTitle = document.createElement("h3");
+  modalTitle.textContent = `Delete "${projectName}"`;
+  modalHeader.appendChild(modalTitle);
+
+  const modalBody = document.createElement("div");
+  modalBody.classList.add("modal-body");  
+  const warningMessage = document.createElement("p");
+  warningMessage.innerHTML = `Are you sure you want to delete <strong>${projectName}</strong>?<br>All tasks in this project will be permanently removed.`;
+  modalBody.appendChild(warningMessage);
+  
+  const modalFooter = document.createElement("div");
+  modalFooter.classList.add("modal-footer"); 
+  const cancelButton = document.createElement("button");
+  cancelButton.textContent = "Cancel";
+  cancelButton.classList.add("cancel-button");
+  modalFooter.appendChild(cancelButton); 
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "Delete Project";
+  deleteButton.classList.add("delete-confirm-button");
+  modalFooter.appendChild(deleteButton);
+  
+
+  modalContainer.appendChild(modalHeader);
+  modalContainer.appendChild(modalBody);
+  modalContainer.appendChild(modalFooter);
+  modalOverlay.appendChild(modalContainer);
+  
+  return modalOverlay;
+}
+
+export const ui = { renderProjects, createProjectForm, editProjectNameForm, createDeleteModal };

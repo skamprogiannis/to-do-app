@@ -135,6 +135,18 @@ const projectManager = {
     ui.renderProjects(this.projects);
   },
 
+  disableProjectButtons(boolean) {
+    const addProjectButton = document.querySelector(".add-project");
+    const editProjectButtons = document.querySelectorAll(".edit-project-btn");
+    const deleteProjectButtons = document.querySelectorAll(
+      ".delete-project-btn"
+    );
+
+    addProjectButton.disabled = boolean;
+    editProjectButtons.forEach((button) => (button.disabled = boolean));
+    deleteProjectButtons.forEach((button) => (button.disabled = boolean));
+  },
+
   deleteProject() {
     const projectList = document.querySelector(".project-list");
     projectList.addEventListener("click", (event) => {
@@ -142,29 +154,46 @@ const projectManager = {
         event.target.classList.contains("delete-project-btn") ||
         event.target.parentElement.classList.contains("delete-project-btn")
       ) {
-        const deleteButton = event.target.classList.contains("edit-project-btn")
+        const deleteButton = event.target.classList.contains("delete-project-btn")
           ? event.target
           : event.target.parentElement;
-
-        this.disableProjectButtons(true);
-
+        
         const projectIndex = deleteButton.dataset.index;
         const linkedProject = this.projects[projectIndex];
-        linkedProject.removeProject();
-        this.removeProjectData(projectIndex);
-        ui.renderProjects(this.projects);
+        const projectName = linkedProject.name;
+        
+        const deleteModal = ui.createDeleteModal(projectName, projectIndex);
+        document.body.appendChild(deleteModal);        
+        
+        this.attachDeleteModalEventListeners(deleteModal, projectIndex);
       }
     });
   },
 
-  disableProjectButtons(boolean) {
-    const addProjectButton = document.querySelector(".add-project");
-    const editProjectButtons = document.querySelectorAll(".edit-project-btn");
-    const deleteProjectButtons = document.querySelectorAll(".delete-project-btn");
+  attachDeleteModalEventListeners(deleteModal, projectIndex) {
+    // Close modal when clicking on overlay
+    deleteModal.addEventListener("click", (event) => {
+      if (event.target === deleteModal) {
+        deleteModal.remove();
+      }
+    });
+    
+    const cancelButton = deleteModal.querySelector(".cancel-button");
+    const confirmDeleteButton = deleteModal.querySelector(".delete-confirm-button");
+    
+    cancelButton.addEventListener("click", () => {
+      deleteModal.remove();
+    });
+    
+    confirmDeleteButton.addEventListener("click", () => {
+      this.handleDeleteConfirmation(projectIndex);
+      deleteModal.remove();
+    });
+  },
 
-    addProjectButton.disabled = boolean;
-    editProjectButtons.forEach(button => button.disabled = boolean);
-    deleteProjectButtons.forEach(button => button.disabled = boolean);
+  handleDeleteConfirmation(projectIndex) {
+    this.removeProjectData(projectIndex);
+    ui.renderProjects(this.projects);
   },
 
   shiaSurprise() {
