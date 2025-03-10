@@ -273,6 +273,8 @@ main {
   justify-content: space-between;
   margin-bottom: 4px;
   flex-wrap: nowrap;
+  border-radius: 6px;
+  transition: background-color 0.2s;
 }
 
 .project-name-btn {
@@ -284,17 +286,13 @@ main {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 6px;
 }
 
 .project-actions-container {
   display: flex;
   flex-shrink: 0;
-}
-
-.project-name-btn {
-  padding: 8px 10px;
-  border-radius: 6px;
-  transition: background-color 0.2s;
 }
 
 .project-actions-container button {
@@ -314,7 +312,7 @@ main {
   height: auto;
 }
 
-.project-name-btn:hover,
+.project-list li:hover,
 .edit-project-btn:hover,
 .delete-project-btn:hover {
   background-color: rgba(0, 0, 0, 0.1);
@@ -483,3 +481,4 @@ form .cancel-button:hover {
   flex: 1;
   overflow-y: auto;
 }
+
