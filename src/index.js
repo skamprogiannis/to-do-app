@@ -11,6 +11,7 @@ const projectManager = {
     this.shiaSurprise();
     this.addProjectClick();
     this.editProjectName();
+    this.deleteProject();
   },
 
   loadProjectsFromLocalStorage() {
@@ -30,6 +31,11 @@ const projectManager = {
 
   editProjectData(project, projectIndex) {
     this.projects[projectIndex].name = project.name;
+    localStorage.setItem("projects", JSON.stringify(this.projects));
+  },
+
+  removeProjectData(projectIndex) {
+    this.projects.splice(projectIndex, 1);
     localStorage.setItem("projects", JSON.stringify(this.projects));
   },
 
@@ -114,6 +120,28 @@ const projectManager = {
     });
   },
 
+  deleteProject() {
+    const projectList = document.querySelector(".project-list");
+    projectList.addEventListener("click", (event) => {
+      if (
+        event.target.classList.contains("delete-project-btn") ||
+        event.target.parentElement.classList.contains("delete-project-btn")
+      ) {
+        const deleteButton = event.target.classList.contains("edit-project-btn")
+          ? event.target
+          : event.target.parentElement;
+
+        this.disableProjectButtons(true);
+
+        const projectIndex = deleteButton.dataset.index;
+        const linkedProject = this.projects[projectIndex];
+        linkedProject.removeProject();
+        this.removeProjectData(projectIndex);
+        ui.renderProjects(this.projects);
+      }
+    });
+  },
+
   handleEditProjectFormSubmit(event, projectIndex) {
     event.preventDefault();
     const editProjectNameForm = event.target;
@@ -124,9 +152,10 @@ const projectManager = {
     projectToEdit.editName(updatedProjectName);
     this.editProjectData(projectToEdit, projectIndex);
 
-    this.disableProjectButtons(false);
-
+    
     editProjectNameForm.reset(); //Is this necessary?
+
+    this.disableProjectButtons(false);
     ui.renderProjects(this.projects);
   },
 
@@ -137,7 +166,7 @@ const projectManager = {
 
     addProjectButton.disabled = boolean;
     editProjectButtons.forEach(button => button.disabled = boolean);
-    deleteProjectButtons.forEach(button => button.disable = boolean);
+    deleteProjectButtons.forEach(button => button.disabled = boolean);
   },
 
   shiaSurprise() {
