@@ -84,6 +84,7 @@ const projectManager = {
     cancelButton.addEventListener("click", () => {
       projectForm.remove();
       this.disableProjectButtons(false);
+      ui.renderProjects(this.projects);
     });
   },
 
@@ -120,6 +121,20 @@ const projectManager = {
     });
   },
 
+  handleEditProjectFormSubmit(event, projectIndex) {
+    event.preventDefault();
+    const editProjectNameForm = event.target;
+    const projectNameInput = editProjectNameForm.querySelector("input");
+    const updatedProjectName = projectNameInput.value.trim();
+    const projectToEdit = this.projects[projectIndex];
+
+    projectToEdit.editName(updatedProjectName);
+    this.editProjectData(projectToEdit, projectIndex);
+
+    this.disableProjectButtons(false);
+    ui.renderProjects(this.projects);
+  },
+
   deleteProject() {
     const projectList = document.querySelector(".project-list");
     projectList.addEventListener("click", (event) => {
@@ -140,23 +155,6 @@ const projectManager = {
         ui.renderProjects(this.projects);
       }
     });
-  },
-
-  handleEditProjectFormSubmit(event, projectIndex) {
-    event.preventDefault();
-    const editProjectNameForm = event.target;
-    const projectNameInput = editProjectNameForm.querySelector("input");
-    const updatedProjectName = projectNameInput.value.trim();
-    const projectToEdit = this.projects[projectIndex];
-
-    projectToEdit.editName(updatedProjectName);
-    this.editProjectData(projectToEdit, projectIndex);
-
-    
-    editProjectNameForm.reset(); //Is this necessary?
-
-    this.disableProjectButtons(false);
-    ui.renderProjects(this.projects);
   },
 
   disableProjectButtons(boolean) {
