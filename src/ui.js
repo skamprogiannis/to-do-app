@@ -3,6 +3,7 @@ function renderProjects(projects) {
   projectList.innerHTML = "";
   projects.forEach((project, index) => {
     const listItem = document.createElement("li");
+    listItem.dataset.index = index;
     const projectButton = document.createElement("button");
     projectButton.textContent = project.name;
     projectButton.classList.add("project-name-btn");
@@ -40,6 +41,7 @@ function createProjectForm() {
   projectNameInput.setAttribute("maxLength", "32");
   projectNameInput.setAttribute("minLength", "1");
   projectNameInput.setAttribute("aria-label", "Project Name");
+  projectNameInput.classList.add("project-name-input")
 
   newProjectForm.appendChild(projectNameInput);
 
@@ -60,4 +62,11 @@ function createProjectForm() {
   return newProjectForm;
 }
 
-export const ui = { renderProjects, createProjectForm };
+function editProjectNameForm(projectName) {
+  const editProjectForm = createProjectForm()
+  const projectNameInput = editProjectForm.querySelector(".project-name-input");
+  projectNameInput.value = projectName;
+  return editProjectForm;
+}
+
+export const ui = { renderProjects, createProjectForm, editProjectNameForm };

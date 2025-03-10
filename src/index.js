@@ -10,12 +10,27 @@ const projectManager = {
     this.loadProjectsFromLocalStorage();
     this.shiaSurprise();
     this.addProjectClick();
+    this.editProjectName();
   },
 
   loadProjectsFromLocalStorage() {
     const storedProjectsData = localStorage.getItem("projects");
-    this.projects = storedProjectsData ? JSON.parse(storedProjectsData) : [];
+    this.projects = storedProjectsData
+      ? JSON.parse(storedProjectsData).map(
+          (projectData) => new Project(projectData.name)
+        )
+      : [];
     ui.renderProjects(this.projects);
+  },
+
+  saveProjectData(newProject) {
+    this.projects.push(newProject);
+    localStorage.setItem("projects", JSON.stringify(this.projects));
+  },
+
+  editProjectData(project, projectIndex) {
+    this.projects[projectIndex].name = project.name;
+    localStorage.setItem("projects", JSON.stringify(this.projects));
   },
 
   addProjectClick() {
@@ -30,18 +45,18 @@ const projectManager = {
       projectNameInput.focus();
 
       newProjectForm.addEventListener("submit", (event) =>
-        this.handleProjectFormSubmit(event)
+        this.handleNewProjectFormSubmit(event)
       );
       this.attachProjectFormButtonEventListeners(newProjectForm);
     });
   },
 
-  handleProjectFormSubmit(event) {
+  handleNewProjectFormSubmit(event) {
     event.preventDefault();
     const newProjectForm = event.target;
     const projectNameInput = newProjectForm.querySelector("input");
-    const newProject = new Project(projectNameInput.value);
-    this.saveProject(newProject);
+    const newProject = new Project(projectNameInput.value.trim());
+    this.saveProjectData(newProject);
 
     document.querySelector(".add-project").disabled = false;
     newProjectForm.reset();
@@ -66,9 +81,51 @@ const projectManager = {
     });
   },
 
-  saveProject(newProject) {
-    this.projects.push(newProject);
-    localStorage.setItem("projects", JSON.stringify(this.projects));
+  editProjectName() { // fix
+    const projectList = document.querySelector(".project-list");
+    projectList.addEventListener("click", (event) => {
+      if (event.target.classList.contains("edit-project-btn")) {
+
+        console.log("Edit button clicked!"); // Debugging log
+
+        const addProjectButton = document.querySelector(".add-project");
+        addProjectButton.disabled = true;
+
+        const projectIndex = event.target.dataset.index;
+        const linkedProject = this.projects[projectIndex];
+        const currentProjectName = linkedProject.name;
+        const editProjectNameForm = ui.editProjectNameForm(currentProjectName);
+
+        const projectListItems = document.querySelectorAll(".project-list li");
+        const projectItem = projectListItems[projectIndex];
+        projectItem.replaceWith(editProjectNameForm);
+
+        const projectNameInput = editProjectNameForm.querySelector("input");
+        projectNameInput.focus();
+
+        editProjectNameForm.addEventListener("submit", (event) =>
+          this.handleEditProjectFormSubmit(event, projectIndex)
+        );
+        this.attachProjectFormButtonEventListeners(editProjectNameForm);
+      }
+    });
+  },
+
+  handleEditProjectFormSubmit(event, projectIndex) {
+    event.preventDefault();
+    const editProjectNameForm = event.target;
+    const projectNameInput = editProjectNameForm.querySelector("input");
+    const updatedProjectName = projectNameInput.value.trim();
+    const projectToEdit = this.projects[projectIndex];
+
+    projectToEdit.editName(updatedProjectName);
+    this.editProjectData(projectToEdit, projectIndex);
+
+    const addProjectButton = document.querySelector(".add-project");
+    addProjectButton.disabled = false;
+
+    editProjectNameForm.reset(); //Is this necessary?
+    ui.renderProjects(this.projects);
   },
 
   shiaSurprise() {
