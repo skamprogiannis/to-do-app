@@ -57,10 +57,11 @@ h6 {
 }
 
 :root {
-  --header-bg-color: rgb(51, 51, 51);
-  --section-border-color: rgb(236, 164, 8);
+  --header-bg-color: #68af7c;
+  --header-text-color: #1d1c1c;
+  --section-border-color: rgb(160, 160, 160);
   --sidebar-bg-color: rgb(221, 221, 221);
-  --confirm-btn-bg-color: rgb(28, 146, 28);
+  --confirm-btn-bg-color: rgb(34, 150, 45);
   --cancel-btn-bg-color: rgb(187, 16, 16);
   --confirm-btn-hover-bg-color: rgb(56, 176, 56);
   --cancel-btn-hover-bg-color: rgb(219, 58, 58);
@@ -84,12 +85,74 @@ body {
 
 header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid var(--section-border-color);
-  padding-bottom: 15px;
+  padding: 15px;
+  font-size: 1.15rem;
   background-color: var(--header-bg-color);
-  color: white;
+  color: var(--header-text-color);
+}
+
+.branding {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 320px;
+}
+
+.header-btns {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  width: auto; 
+}
+
+#toggle-sidebar,
+#toggle-theme {
+  display: flex;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 50px;
+  height: auto;
+}
+
+#toggle-sidebar img,
+#toggle-theme img {
+  width: 50px;
+  height: auto;
+  padding: 5px;
+  border-radius: 50px;
+}
+
+#toggle-sidebar img:hover,
+#toggle-theme img:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+  #toggle-sidebar,
+  #toggle-theme {
+    width: 45px;
+    height: auto;
+    margin-top: -20px;
+  }
+}
+
+.name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+header img {
+  padding-left: 15px;
+  width: 60px;
+  height: auto;
 }
 
 main {
@@ -207,7 +270,7 @@ main {
   padding: 2px;
   border-radius: 50%;
   transition: background-color 0.2s;
-  width: 30px;
+  width: 27.5px;
   height: auto;
 }
 
@@ -258,7 +321,7 @@ form {
 
 form input {
   align-self: center;
-  border: 2px solid #ddd;
+  border: 2px solid #b0b0b0;
   border-radius: 6px;
   padding: 5px;
   outline: none;
