@@ -12,6 +12,7 @@ const projectManager = {
     this.addProjectClick();
     this.editProjectName();
     this.deleteProject();
+    this.toggleSidebar();
   },
 
   loadProjectsFromLocalStorage() {
@@ -37,6 +38,26 @@ const projectManager = {
   removeProjectData(projectIndex) {
     this.projects.splice(projectIndex, 1);
     localStorage.setItem("projects", JSON.stringify(this.projects));
+  },
+
+  toggleSidebar() {
+    const toggleSidebarButton = document.querySelector("#toggle-sidebar");
+    const sidebar = document.querySelector(".sidebar");
+  
+    let sidebarWidth = sidebar.offsetWidth + "px";
+    let sidebarHeight = sidebar.offsetHeight + "px";
+  
+    toggleSidebarButton.addEventListener("click", () => {
+      if (sidebar.style.width === "0px") {
+        sidebar.style.transition = "width 0.3s ease, height 0.3s ease";
+        sidebar.style.width = sidebarWidth;
+        sidebar.style.height = sidebarHeight;
+      } else {
+        sidebar.style.transition = "width 0.3s ease, height 0.3s ease";
+        sidebar.style.width = "0";
+        sidebar.style.height = "0";
+      }
+    });
   },
 
   addProjectClick() {
@@ -154,17 +175,19 @@ const projectManager = {
         event.target.classList.contains("delete-project-btn") ||
         event.target.parentElement.classList.contains("delete-project-btn")
       ) {
-        const deleteButton = event.target.classList.contains("delete-project-btn")
+        const deleteButton = event.target.classList.contains(
+          "delete-project-btn"
+        )
           ? event.target
           : event.target.parentElement;
-        
+
         const projectIndex = deleteButton.dataset.index;
         const linkedProject = this.projects[projectIndex];
         const projectName = linkedProject.name;
-        
+
         const deleteModal = ui.createDeleteModal(projectName, projectIndex);
-        document.body.appendChild(deleteModal);        
-        
+        document.body.appendChild(deleteModal);
+
         this.attachDeleteModalEventListeners(deleteModal, projectIndex);
       }
     });
@@ -177,14 +200,16 @@ const projectManager = {
         deleteModal.remove();
       }
     });
-    
+
     const cancelButton = deleteModal.querySelector(".cancel-button");
-    const confirmDeleteButton = deleteModal.querySelector(".delete-confirm-button");
-    
+    const confirmDeleteButton = deleteModal.querySelector(
+      ".delete-confirm-button"
+    );
+
     cancelButton.addEventListener("click", () => {
       deleteModal.remove();
     });
-    
+
     confirmDeleteButton.addEventListener("click", () => {
       this.handleDeleteConfirmation(projectIndex);
       deleteModal.remove();

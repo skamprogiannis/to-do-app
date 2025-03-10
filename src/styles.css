@@ -116,17 +116,6 @@ h6 {
   }
 }
 
-@keyframes expand {
-  from {
-    max-height: 0;
-    opacity: 0;
-  }
-  to {
-    max-height: 500px; /* Adjust as needed */
-    opacity: 1;
-  }
-}
-
 html,
 body {
   min-height: 100vh;
