@@ -100,14 +100,14 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-width: 320px;
+  min-width: auto;
 }
+
 
 .header-btns {
   flex: 0 0 auto;
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
   width: auto; 
 }
 
@@ -117,7 +117,7 @@ header {
   border: none;
   background: none;
   cursor: pointer;
-  width: 50px;
+  width: 45px;
   height: auto;
 }
 
@@ -139,7 +139,6 @@ header {
   #toggle-theme {
     width: 45px;
     height: auto;
-    margin-top: -20px;
   }
 }
 
@@ -375,3 +374,4 @@ form .cancel-button:hover {
   flex: 1;
   overflow-y: auto;
 }
+
