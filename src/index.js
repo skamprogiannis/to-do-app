@@ -13,13 +13,14 @@ const projectManager = {
     this.editProjectName();
     this.deleteProject();
     this.toggleSidebar();
+    this.selectProject();
   },
 
   loadProjectsFromLocalStorage() {
     const storedProjectsData = localStorage.getItem("projects");
     this.projects = storedProjectsData
       ? JSON.parse(storedProjectsData).map(
-          (projectData) => new Project(projectData.name)
+          (projectData) => new Project(projectData.name, projectData.tasks)
         )
       : [];
     ui.renderProjects(this.projects);
@@ -40,12 +41,14 @@ const projectManager = {
     localStorage.setItem("projects", JSON.stringify(this.projects));
   },
 
+  saveTaskData(newTask, projectIndex) {
+    this.projects[projectIndex].tasks.push(newTask);
+    localStorage.setItem("projects", JSON.stringify(this.projects));
+  },
+
   toggleSidebar() {
     const toggleSidebarButton = document.querySelector("#toggle-sidebar");
     const sidebar = document.querySelector(".sidebar");
-
-    let sidebarWidth = sidebar.offsetWidth + "px";
-    let sidebarHeight = sidebar.offsetHeight + "px";
 
     toggleSidebarButton.addEventListener("click", () => {
       sidebar.classList.toggle("hidden");
@@ -57,7 +60,7 @@ const projectManager = {
     addProjectButton.addEventListener("click", () => {
       this.disableProjectButtons(true);
       const projectList = document.querySelector(".project-list");
-      const newProjectForm = ui.createProjectForm();
+      const newProjectForm = ui.createNewProjectForm();
       projectList.appendChild(newProjectForm);
 
       const projectNameInput = newProjectForm.querySelector("input");
@@ -117,7 +120,8 @@ const projectManager = {
         const projectIndex = editButton.dataset.index;
         const linkedProject = this.projects[projectIndex];
         const currentProjectName = linkedProject.name;
-        const editProjectNameForm = ui.editProjectNameForm(currentProjectName);
+        const editProjectNameForm =
+          ui.createEditProjectNameForm(currentProjectName);
 
         const projectListItems = document.querySelectorAll(".project-list li");
         const projectItem = projectListItems[projectIndex];
@@ -177,15 +181,18 @@ const projectManager = {
         const linkedProject = this.projects[projectIndex];
         const projectName = linkedProject.name;
 
-        const deleteModal = ui.createDeleteModal(projectName, projectIndex);
+        const deleteModal = ui.createDeleteProjectModal(
+          projectName,
+          projectIndex
+        );
         document.body.appendChild(deleteModal);
 
-        this.attachDeleteModalEventListeners(deleteModal, projectIndex);
+        this.attachDeleteProjectModalEventListeners(deleteModal, projectIndex);
       }
     });
   },
 
-  attachDeleteModalEventListeners(deleteModal, projectIndex) {
+  attachDeleteProjectModalEventListeners(deleteModal, projectIndex) {
     // Close modal when clicking on overlay
     deleteModal.addEventListener("click", (event) => {
       if (event.target === deleteModal) {
@@ -203,19 +210,83 @@ const projectManager = {
     });
 
     confirmDeleteButton.addEventListener("click", () => {
-      this.handleDeleteConfirmation(projectIndex);
+      this.handleDeleteProjectConfirmation(projectIndex);
       deleteModal.remove();
     });
   },
 
-  handleDeleteConfirmation(projectIndex) {
+  handleDeleteProjectConfirmation(projectIndex) {
     this.removeProjectData(projectIndex);
     ui.renderProjects(this.projects);
   },
 
+  selectProject() {
+    const projectList = document.querySelector(".project-list");
+    projectList.addEventListener("click", (event) => {
+      if (event.target.classList.contains("project-name-btn")) {
+        const selectProjectButton = event.target;
+        const projectIndex = selectProjectButton.parentElement.dataset.index;
+        const project = this.projects[projectIndex];
+        ui.renderTasksByProject(project);
+        this.attachAddTaskEventListener(projectIndex);
+      }
+    });
+  },
+
+  attachAddTaskEventListener(projectIndex) {
+    const addTaskButton = document.querySelector(".add-task-button");
+    addTaskButton.addEventListener("click", () => {
+      const createTaskForm = ui.createNewTaskForm();
+      const tasksSection = document.querySelector(".tasks-section");
+      tasksSection.appendChild(createTaskForm);
+
+      createTaskForm.addEventListener("submit", (event) =>
+        this.handleNewTaskFormSubmit(event, projectIndex)
+      );
+      this.attachTaskFormButtonEventListeners(createTaskForm);
+    });
+  },
+
+  handleNewTaskFormSubmit(event, projectIndex) {
+    event.preventDefault();
+    const newTaskForm = event.target;
+    const taskNameInput = newTaskForm.querySelector(".task-name-input");
+    const taskDescriptionInput = newTaskForm.querySelector(
+      ".task-description-input"
+    );
+    const dueDateInput = newTaskForm.querySelector(".due-date-input");
+    const prioritySelector = newTaskForm.querySelector(".priority-selector");
+
+    const newTask = new Task(
+      taskNameInput.value.trim(),
+      taskDescriptionInput.value.trim(),
+      dueDateInput.value,
+      prioritySelector.value
+    );
+    this.saveTaskData(newTask, projectIndex);
+    ui.renderTask(newTask);
+  },
+
+  attachTaskFormButtonEventListeners(createTaskForm) {
+    const confirmButton = createTaskForm.querySelector(".confirm-button");
+    const cancelButton = createTaskForm.querySelector(".cancel-button");
+
+    confirmButton.addEventListener("click", () => {
+      if (createTaskForm.checkValidity()) {
+        createTaskForm.requestSubmit();
+      } else {
+        createTaskForm.reportValidity();
+      }
+    });
+
+    cancelButton.addEventListener("click", () => {
+      createTaskForm.remove();
+    });
+  },
+
   shiaSurprise() {
     const shiaVideoLink = document.querySelector(".shia-surprise");
-    const todoContainer = document.querySelector(".todo-container");
+    const tasksSection = document.querySelector(".tasks-section");
 
     shiaVideoLink.addEventListener("click", function (event) {
       event.preventDefault();
@@ -225,10 +296,21 @@ const projectManager = {
       iframe.height = "100%";
       iframe.allow = "autoplay;";
 
-      todoContainer.innerHTML = "";
-      todoContainer.appendChild(iframe);
+      tasksSection.innerHTML = "";
+      tasksSection.appendChild(iframe);
     });
   },
 };
 
 projectManager.initialize();
+
+/* ProjectName = Meta
+Add Shia Surprise URGENT checked
+Implement Dark Mode
+Add backend
+Make design responsive
+Write README
+Add CSS effects for sidebar toggle
+Refactor project rendering so that a single project can be added/removed from the DOM
+Improve accessibility
+Add user profiles and Authentication */

@@ -492,7 +492,7 @@ form .cancel-button:hover {
   animation: buttonBounce 0.4s ease;
 }
 
-.todo-container {
+.tasks-section {
   flex: 1;
   overflow-y: auto;
 }
