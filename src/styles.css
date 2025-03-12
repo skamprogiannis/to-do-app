@@ -61,6 +61,7 @@ h6 {
   --header-text-color: #1d1c1c;
   --section-border-color: rgb(160, 160, 160);
   --sidebar-bg-color: rgb(221, 221, 221);
+  --sidebar-h2-bg-color: linear-gradient(to right, #68af7c, #4cae3d);
   --confirm-btn-bg-color: rgb(34, 150, 45);
   --cancel-btn-bg-color: rgb(187, 16, 16);
   --confirm-btn-hover-bg-color: rgb(56, 176, 56);
@@ -209,6 +210,12 @@ main {
   border-right: 2px solid var(--section-border-color);
 }
 
+.hidden {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 .sidebar h2 {
   text-align: center;
   text-transform: uppercase;
@@ -221,7 +228,9 @@ main {
   padding: 10px;
   border-radius: 6px;
   flex-shrink: 0;
-  background: linear-gradient(to right, #68af7c, #4cae3d);
+  background: var(--sidebar-h2-bg-color);
+  word-wrap: break-word;
+  overflow-wrap: normal;
 }
 
 .sidebar nav {

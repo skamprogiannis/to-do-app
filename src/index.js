@@ -43,20 +43,12 @@ const projectManager = {
   toggleSidebar() {
     const toggleSidebarButton = document.querySelector("#toggle-sidebar");
     const sidebar = document.querySelector(".sidebar");
-  
+
     let sidebarWidth = sidebar.offsetWidth + "px";
     let sidebarHeight = sidebar.offsetHeight + "px";
-  
+
     toggleSidebarButton.addEventListener("click", () => {
-      if (sidebar.style.width === "0px") {
-        sidebar.style.transition = "width 0.3s ease, height 0.3s ease";
-        sidebar.style.width = sidebarWidth;
-        sidebar.style.height = sidebarHeight;
-      } else {
-        sidebar.style.transition = "width 0.3s ease, height 0.3s ease";
-        sidebar.style.width = "0";
-        sidebar.style.height = "0";
-      }
+      sidebar.classList.toggle("hidden");
     });
   },
 
