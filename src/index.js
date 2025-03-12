@@ -3,7 +3,7 @@ import Task from "./tasks.js";
 import Project from "./Project.js";
 import { ui } from "./ui.js";
 
-const projectManager = {
+const stateManager = {
   projects: [],
 
   initialize() {
@@ -18,11 +18,24 @@ const projectManager = {
 
   loadProjectsFromLocalStorage() {
     const storedProjectsData = localStorage.getItem("projects");
+    // this.projects = storedProjectsData
+    //   ? JSON.parse(storedProjectsData).map(
+    //       (projectData) => new Project(projectData.name, projectData.tasks)
+    //     )
+    //   : [];
     this.projects = storedProjectsData
-      ? JSON.parse(storedProjectsData).map(
-          (projectData) => new Project(projectData.name, projectData.tasks)
-        )
-      : [];
+    ? JSON.parse(storedProjectsData).map(
+        (projectData) =>
+          new Project(
+            projectData.name,
+            projectData.tasks.map(
+              (task) =>
+                new Task(task.title, task.description, task.dueDate, task.priority)
+            )
+          )
+      )
+    : [];
+  
     ui.renderProjects(this.projects);
   },
 
@@ -302,10 +315,22 @@ const projectManager = {
   },
 };
 
-projectManager.initialize();
+stateManager.initialize();
 
-/* ProjectName = Meta
-Add Shia Surprise URGENT checked
+//for testing
+  if (stateManager.projects.length === 0) {
+  const meta = new Project("meta");
+  const shia = new Task("shia", "", "2025-03-13", "High");
+  shia.toggleCompleted();
+  const theme = new Task("Add Theme Toggle", "", "2025-03-13", "Low");
+  meta.addTask(shia);
+  meta.addTask(theme);
+  stateManager.saveProjectData(meta);
+  ui.renderProjects(stateManager.projects);
+}
+
+/*
+Add validation to project and task creation forms, e.g. two can't have the same name
 Implement Dark Mode
 Add backend
 Make design responsive
@@ -313,4 +338,5 @@ Write README
 Add CSS effects for sidebar toggle
 Refactor project rendering so that a single project can be added/removed from the DOM
 Improve accessibility
-Add user profiles and Authentication */
+Add user profiles and Authentication 
+*/

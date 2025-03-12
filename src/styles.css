@@ -496,3 +496,22 @@ form .cancel-button:hover {
   flex: 1;
   overflow-y: auto;
 }
+
+
+
+.edit-task-btn,
+.delete-task-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  width: 27.5px;
+  height: auto;
+}
+
+.task-row {
+  display: flex;
+  justify-content: space-between;
+}

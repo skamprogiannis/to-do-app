@@ -134,6 +134,8 @@ function renderTask(task) {
   buttonContainer.appendChild(deleteButton);
 
   const taskDOM = document.createElement("div");
+  taskDOM.classList.add("task-row");
+  taskDOM.setAttribute("id", task.title);
   taskDOM.appendChild(checkbox);
   taskDOM.appendChild(title);
   taskDOM.appendChild(dueDate);
