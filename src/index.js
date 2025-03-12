@@ -1,5 +1,5 @@
 import "./styles.css";
-import ToDo from "./ToDo.js";
+import Task from "./tasks.js";
 import Project from "./Project.js";
 import { ui } from "./ui.js";
 
