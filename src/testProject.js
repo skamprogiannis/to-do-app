@@ -1,5 +1,6 @@
 import Project from "./Project.js";
 import Task from "./tasks.js";
+import { ui } from "./ui.js";
 import { stateManager } from './index.js';
 
 export function meta() {

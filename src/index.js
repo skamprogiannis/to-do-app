@@ -16,7 +16,7 @@ export const stateManager = {
     this.deleteProject();
     this.toggleSidebar();
     this.selectProject();
-    this.selectImportant();
+    this.selectImportantTasks();
   },
 
   loadProjectsFromLocalStorage() {
@@ -271,14 +271,19 @@ export const stateManager = {
       ".task-description-input"
     );
     const dueDateInput = newTaskForm.querySelector(".due-date-input");
-    const prioritySelector = newTaskForm.querySelector(".priority-selector");   
-    
+    const prioritySelector = newTaskForm.querySelector(".priority-selector");
+
+    if (!dueDateInput.value) {
+      dueDateInput.setCustomValidity("Please select a due date.");
+      dueDateInput.reportValidity();
+      return;
+    }
     const today = format(new Date(), "yyyy-MM-dd");
-    const dueDate = format(new Date(dueDateInput.value), "yyyy-MM-dd");
+    const dueDate = dueDateInput.value;  
     if (isBefore(new Date(dueDate), new Date(today))) {
       dueDateInput.setCustomValidity("The due date must be today or in the future.");
       dueDateInput.reportValidity();
-      return; 
+      return;
     }
 
     const newTask = new Task(
