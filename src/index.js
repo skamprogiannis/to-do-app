@@ -273,16 +273,8 @@ export const stateManager = {
     const dueDateInput = newTaskForm.querySelector(".due-date-input");
     const prioritySelector = newTaskForm.querySelector(".priority-selector");
 
-    if (!dueDateInput.value) {
-      dueDateInput.setCustomValidity("Please select a due date.");
-      dueDateInput.reportValidity();
-      return;
-    }
-    const today = format(new Date(), "yyyy-MM-dd");
-    const dueDate = dueDateInput.value;  
-    if (isBefore(new Date(dueDate), new Date(today))) {
-      dueDateInput.setCustomValidity("The due date must be today or in the future.");
-      dueDateInput.reportValidity();
+    const isValidDate = this.validateDateInput(dueDateInput);
+    if (!isValidDate) {
       return;
     }
 
@@ -299,6 +291,11 @@ export const stateManager = {
   attachTaskFormButtonEventListeners(createTaskForm) {
     const confirmButton = createTaskForm.querySelector(".confirm-button");
     const cancelButton = createTaskForm.querySelector(".cancel-button");
+    const dueDateInput = createTaskForm.querySelector(".due-date-input");
+
+    dueDateInput.addEventListener("change", () => {
+      dueDateInput.setCustomValidity("");
+    });
 
     confirmButton.addEventListener("click", () => {
       if (createTaskForm.checkValidity()) {
@@ -312,6 +309,26 @@ export const stateManager = {
       createTaskForm.remove();
     });
   },
+
+  validateDateInput(dueDateInput) {
+  if (!dueDateInput.value) {
+    dueDateInput.setCustomValidity("Please select a due date.");
+    dueDateInput.reportValidity();
+    return false;
+  }
+
+  const today = format(new Date(), "yyyy-MM-dd");
+  const dueDate = dueDateInput.value;
+
+  if (isBefore(new Date(dueDate), new Date(today))) {
+    dueDateInput.setCustomValidity(
+      "The due date must be today or in the future."
+    );
+    dueDateInput.reportValidity();
+    return false;
+  }      
+    return true;
+  },  
 
   // displayTasksForToday() {
   //   const todayButton = document.querySelector(".today-btn");
