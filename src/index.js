@@ -15,6 +15,7 @@ export const stateManager = {
     this.deleteProject();
     this.toggleSidebar();
     this.selectProject();
+    this.selectImportant();
   },
 
   loadProjectsFromLocalStorage() {
@@ -295,6 +296,25 @@ export const stateManager = {
 
     cancelButton.addEventListener("click", () => {
       createTaskForm.remove();
+    });
+  },
+
+  // displayTasksForToday() {
+  //   const todayButton = document.querySelector(".today-btn");
+  //   todayButton("click", () => {
+
+  //   })
+  // },
+
+  selectImportantTasks() {
+    const importantButton = document.querySelector(".important-btn");
+    importantButton.addEventListener("click", () => {
+      const importantTasks = this.projects
+        .map((project) => project.tasks)
+        .flat()
+        .filter((task) => task.priority === "High");
+
+      ui.renderImportantTasks(importantTasks);
     });
   },
 

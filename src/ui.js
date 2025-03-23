@@ -167,6 +167,24 @@ function renderTasksByProject(project) {
   });
 }
 
+function renderImportantTasks(tasks) {
+  const tasksSection = document.querySelector(".tasks-section");
+  tasksSection.innerHTML = "";
+
+  const importantHeading = document.createElement("h3");
+  importantHeading.textContent = "Important";
+  tasksSection.appendChild(importantHeading);
+
+  const tasksContainer = document.createElement("div");
+  tasksContainer.classList.add("tasks-container");
+  tasksSection.appendChild(tasksContainer);
+
+  tasks.forEach((task) => {
+    renderTask(task);
+  });
+
+}
+
 function createNewTaskForm() {
   const taskNameInput = document.createElement("input");
   taskNameInput.setAttribute("type", "text");
@@ -230,4 +248,5 @@ export const ui = {
   renderTasksByProject,
   createNewTaskForm,
   renderTask,
+  renderImportantTasks
 };
