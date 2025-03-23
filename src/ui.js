@@ -145,60 +145,42 @@ function renderTask(task) {
   tasksContainer.appendChild(taskDOM);
 }
 
-function renderTasksByProject(project) {
+function renderTasks(title, tasks, showAddButton = false) {
   const tasksSection = document.querySelector(".tasks-section");
   tasksSection.innerHTML = "";
 
-  const projectHeading = document.createElement("h3");
-  projectHeading.textContent = project.name;
-  tasksSection.appendChild(projectHeading);
+  const heading = document.createElement("h3");
+  heading.textContent = title;
+  tasksSection.appendChild(heading);
 
-  const addTaskButton = document.createElement("button");
-  addTaskButton.textContent = "＋ Add Task";
-  addTaskButton.classList.add("add-task-button");
-  tasksSection.appendChild(addTaskButton);
+  if (showAddButton) {
+    const addTaskButton = document.createElement("button");
+    addTaskButton.textContent = "＋ Add Task";
+    addTaskButton.classList.add("add-task-button");
+    tasksSection.appendChild(addTaskButton);
+  }
 
   const tasksContainer = document.createElement("div");
   tasksContainer.classList.add("tasks-container");
   tasksSection.appendChild(tasksContainer);
 
-  project.tasks.forEach((task) => {
+  tasks.forEach((task) => {
     renderTask(task);
   });
+  
+  return tasksSection;
+}
+
+function renderTasksByProject(project) {
+  return renderTasks(project.name, project.tasks, true);
 }
 
 function renderImportantTasks(tasks) {
-  const tasksSection = document.querySelector(".tasks-section");
-  tasksSection.innerHTML = "";
-
-  const importantHeading = document.createElement("h3");
-  importantHeading.textContent = "Important";
-  tasksSection.appendChild(importantHeading);
-
-  const tasksContainer = document.createElement("div");
-  tasksContainer.classList.add("tasks-container");
-  tasksSection.appendChild(tasksContainer);
-
-  tasks.forEach((task) => {
-    renderTask(task);
-  });
+  return renderTasks("Important", tasks);
 }
 
 function renderTodayTasks(tasks) {
-  const tasksSection = document.querySelector(".tasks-section");
-  tasksSection.innerHTML = "";
-
-  const todayHeading = document.createElement("h3");
-  todayHeading.textContent = "Today";
-  tasksSection.appendChild(todayHeading);
-
-  const tasksContainer = document.createElement("div");
-  tasksContainer.classList.add("tasks-container");
-  tasksSection.appendChild(tasksContainer);
-
-  tasks.forEach((task) => {
-    renderTask(task);
-  });
+  return renderTasks("Today", tasks);
 }
 
 function createNewTaskForm() {
