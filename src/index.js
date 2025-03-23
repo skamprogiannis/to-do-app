@@ -2,6 +2,7 @@ import "./styles.css";
 import Task from "./tasks.js";
 import Project from "./Project.js";
 import { ui } from "./ui.js";
+import { meta } from "./testProject.js";
 
 const stateManager = {
   projects: [],
@@ -18,24 +19,24 @@ const stateManager = {
 
   loadProjectsFromLocalStorage() {
     const storedProjectsData = localStorage.getItem("projects");
-    // this.projects = storedProjectsData
-    //   ? JSON.parse(storedProjectsData).map(
-    //       (projectData) => new Project(projectData.name, projectData.tasks)
-    //     )
-    //   : [];
     this.projects = storedProjectsData
-    ? JSON.parse(storedProjectsData).map(
-        (projectData) =>
-          new Project(
-            projectData.name,
-            projectData.tasks.map(
-              (task) =>
-                new Task(task.title, task.description, task.dueDate, task.priority)
+      ? JSON.parse(storedProjectsData).map(
+          (projectData) =>
+            new Project(
+              projectData.name,
+              projectData.tasks.map(
+                (task) =>
+                  new Task(
+                    task.title,
+                    task.description,
+                    task.dueDate,
+                    task.priority
+                  )
+              )
             )
-          )
-      )
-    : [];
-  
+        )
+      : [];
+
     ui.renderProjects(this.projects);
   },
 
@@ -316,27 +317,4 @@ const stateManager = {
 };
 
 stateManager.initialize();
-
-//for testing
-  if (stateManager.projects.length === 0) {
-  const meta = new Project("meta");
-  const shia = new Task("shia", "", "2025-03-13", "High");
-  shia.toggleCompleted();
-  const theme = new Task("Add Theme Toggle", "", "2025-03-13", "Low");
-  meta.addTask(shia);
-  meta.addTask(theme);
-  stateManager.saveProjectData(meta);
-  ui.renderProjects(stateManager.projects);
-}
-
-/*
-Add validation to project and task creation forms, e.g. two can't have the same name
-Implement Dark Mode
-Add backend
-Make design responsive
-Write README
-Add CSS effects for sidebar toggle
-Refactor project rendering so that a single project can be added/removed from the DOM
-Improve accessibility
-Add user profiles and Authentication 
-*/
+meta(stateManager);
