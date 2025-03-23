@@ -3,6 +3,7 @@ import Task from "./tasks.js";
 import Project from "./Project.js";
 import { ui } from "./ui.js";
 import { meta } from "./testProject.js";
+import { format, isFuture, isToday, parseISO } from "date-fns";
 
 export const stateManager = {
   projects: [],
@@ -302,8 +303,21 @@ export const stateManager = {
   // displayTasksForToday() {
   //   const todayButton = document.querySelector(".today-btn");
   //   todayButton("click", () => {
+  //     const todayTasks = this.projects
+  //       .map((project) => project.tasks)
+  //       .flat()
+  //       .filter((task) => {
+  //         const taskDueDate = new Date(task.dueDate);
+  //         const today = new Date();
+  //         return (
+  //           taskDueDate.getDate() === today.getDate() &&
+  //           taskDueDate.getMonth() === today.getMonth() &&
+  //           taskDueDate.getFullYear() === today.getFullYear()
+  //         );
+  //       });
 
-  //   })
+  //     ui.renderTodayTasks(todayTasks);
+  //   });
   // },
 
   selectImportantTasks() {
