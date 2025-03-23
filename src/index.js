@@ -3,7 +3,7 @@ import Task from "./tasks.js";
 import Project from "./Project.js";
 import { ui } from "./ui.js";
 import { meta } from "./testProject.js";
-import { format, isFuture, isToday, parseISO } from "date-fns";
+import { format, isBefore } from "date-fns";
 
 export const stateManager = {
   projects: [],
@@ -271,7 +271,15 @@ export const stateManager = {
       ".task-description-input"
     );
     const dueDateInput = newTaskForm.querySelector(".due-date-input");
-    const prioritySelector = newTaskForm.querySelector(".priority-selector");
+    const prioritySelector = newTaskForm.querySelector(".priority-selector");   
+    
+    const today = format(new Date(), "yyyy-MM-dd");
+    const dueDate = format(new Date(dueDateInput.value), "yyyy-MM-dd");
+    if (isBefore(new Date(dueDate), new Date(today))) {
+      dueDateInput.setCustomValidity("The due date must be today or in the future.");
+      dueDateInput.reportValidity();
+      return; 
+    }
 
     const newTask = new Task(
       taskNameInput.value.trim(),
