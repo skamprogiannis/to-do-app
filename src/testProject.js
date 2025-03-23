@@ -1,7 +1,8 @@
 import Project from "./Project.js";
 import Task from "./tasks.js";
+import { stateManager } from './index.js';
 
-export function meta(stateManager) {
+export function meta() {
   if (stateManager.projects.length === 0) {
     const meta = new Project("meta");
     const shia = new Task("shia", "", "2025-03-13", "High");

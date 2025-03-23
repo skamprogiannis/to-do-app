@@ -146,7 +146,6 @@ function renderTask(task) {
 }
 
 function renderTasksByProject(project) {
-  console.log(project);
   const tasksSection = document.querySelector(".tasks-section");
   tasksSection.innerHTML = "";
 
@@ -164,7 +163,6 @@ function renderTasksByProject(project) {
   tasksSection.appendChild(tasksContainer);
 
   project.tasks.forEach((task) => {
-    console.log(task);
     renderTask(task);
   });
 }

@@ -4,7 +4,7 @@ import Project from "./Project.js";
 import { ui } from "./ui.js";
 import { meta } from "./testProject.js";
 
-const stateManager = {
+export const stateManager = {
   projects: [],
 
   initialize() {
@@ -317,4 +317,4 @@ const stateManager = {
 };
 
 stateManager.initialize();
-meta(stateManager);
+meta();
