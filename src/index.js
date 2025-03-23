@@ -17,6 +17,7 @@ export const stateManager = {
     this.toggleSidebar();
     this.selectProject();
     this.selectImportantTasks();
+    this.selectTodayTasks();
   },
 
   loadProjectsFromLocalStorage() {
@@ -311,44 +312,37 @@ export const stateManager = {
   },
 
   validateDateInput(dueDateInput) {
-  if (!dueDateInput.value) {
-    dueDateInput.setCustomValidity("Please select a due date.");
-    dueDateInput.reportValidity();
-    return false;
-  }
+    if (!dueDateInput.value) {
+      dueDateInput.setCustomValidity("Please select a due date.");
+      dueDateInput.reportValidity();
+      return false;
+    }
 
-  const today = format(new Date(), "yyyy-MM-dd");
-  const dueDate = dueDateInput.value;
+    const today = format(new Date(), "yyyy-MM-dd");
+    const dueDate = dueDateInput.value;
 
-  if (isBefore(new Date(dueDate), new Date(today))) {
-    dueDateInput.setCustomValidity(
-      "The due date must be today or in the future."
-    );
-    dueDateInput.reportValidity();
-    return false;
-  }      
+    if (isBefore(new Date(dueDate), new Date(today))) {
+      dueDateInput.setCustomValidity(
+        "The due date must be today or in the future."
+      );
+      dueDateInput.reportValidity();
+      return false;
+    }
     return true;
-  },  
+  },
 
-  // displayTasksForToday() {
-  //   const todayButton = document.querySelector(".today-btn");
-  //   todayButton("click", () => {
-  //     const todayTasks = this.projects
-  //       .map((project) => project.tasks)
-  //       .flat()
-  //       .filter((task) => {
-  //         const taskDueDate = new Date(task.dueDate);
-  //         const today = new Date();
-  //         return (
-  //           taskDueDate.getDate() === today.getDate() &&
-  //           taskDueDate.getMonth() === today.getMonth() &&
-  //           taskDueDate.getFullYear() === today.getFullYear()
-  //         );
-  //       });
+  selectTodayTasks() {
+    const todayButton = document.querySelector(".today-btn");
+    todayButton.addEventListener("click", () => {
+      const today = format(new Date(), "yyyy-MM-dd");
+      const tasksForToday = this.projects
+        .map((project) => project.tasks)
+        .flat()
+        .filter((task) => task.dueDate === today);
 
-  //     ui.renderTodayTasks(todayTasks);
-  //   });
-  // },
+      ui.renderTodayTasks(tasksForToday);
+    });
+  },
 
   selectImportantTasks() {
     const importantButton = document.querySelector(".important-btn");

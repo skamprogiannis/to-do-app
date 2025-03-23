@@ -182,7 +182,23 @@ function renderImportantTasks(tasks) {
   tasks.forEach((task) => {
     renderTask(task);
   });
+}
 
+function renderTodayTasks(tasks) {
+  const tasksSection = document.querySelector(".tasks-section");
+  tasksSection.innerHTML = "";
+
+  const todayHeading = document.createElement("h3");
+  todayHeading.textContent = "Today";
+  tasksSection.appendChild(todayHeading);
+
+  const tasksContainer = document.createElement("div");
+  tasksContainer.classList.add("tasks-container");
+  tasksSection.appendChild(tasksContainer);
+
+  tasks.forEach((task) => {
+    renderTask(task);
+  });
 }
 
 function createNewTaskForm() {
@@ -248,5 +264,6 @@ export const ui = {
   renderTasksByProject,
   createNewTaskForm,
   renderTask,
-  renderImportantTasks
+  renderImportantTasks,
+  renderTodayTasks
 };
