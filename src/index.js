@@ -84,7 +84,6 @@ export const stateManager = {
   },
 
   saveNewTaskData(newTask) {
-
     console.log("Saving task:", newTask);
     console.log("Projects:", this.projects);
     const project = this.projects.find(
@@ -429,6 +428,7 @@ export const stateManager = {
         this.attachTaskRowEventListeners(task);
       });
     });
+    todayButton.click();
   },
 
   selectNext7DaysTasks() {
