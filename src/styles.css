@@ -70,6 +70,7 @@ h6 {
   --btn-shadow-hover: rgba(0, 0, 0, 0.3);
   --scrollbar-dark-grey: #6c757d;
   --scrollbar-light-grey: #e0e0e0;
+  --scrollbar-hover-color: #555;
   --add-project-button-color: #4a90e2;
   --add-project-button-hover: #2a6fc9;
   --input-border: #4a90e2;
@@ -346,20 +347,31 @@ main {
   opacity: 1;
 }
 
-.project-list::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+.project-list::-webkit-scrollbar,
+.tasks-section::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 
-.project-list::-webkit-scrollbar-track {
+.project-list::-webkit-scrollbar-track,
+.tasks-section::-webkit-scrollbar-track {
   background: var(--scrollbar-light-grey);
   border-radius: 10px;
+  margin: 15px 0;
 }
 
-.project-list::-webkit-scrollbar-thumb {
+.project-list::-webkit-scrollbar-thumb,
+.tasks-section::-webkit-scrollbar-thumb {
   background: var(--scrollbar-dark-grey);
   border-radius: 10px;
   border: 2px solid var(--scrollbar-light-grey);
+  min-height: 30px;
+  max-height: 60px;
+}
+
+.project-list::-webkit-scrollbar-thumb:hover,
+.tasks-section::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-hover-color);
 }
 
 .add-project {
