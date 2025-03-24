@@ -311,8 +311,9 @@ export const stateManager = {
       if (event.target.classList.contains("project-name-btn")) {
         this.clearSelectedView();
         const selectProjectButton = event.target;
-        selectProjectButton.classList.add("selected");
-        this.currentView = selectProjectButton;
+        const projectLi = selectProjectButton.closest("li");
+        projectLi.classList.add("selected");
+        this.currentView = projectLi;
 
         const projectID = selectProjectButton.parentElement.dataset.id;
         const project = this.projects.find((p) => p.id === projectID);
@@ -596,8 +597,10 @@ export const stateManager = {
   },
 
   clearSelectedView() {
-    const allViews = document.querySelectorAll('.home ul li button, .project-name-btn');
-    allViews.forEach(view => view.classList.remove('selected'));
+    const allViews = document.querySelectorAll('.home ul li button, .project-list li');
+    allViews.forEach(view => {
+      view.classList.remove('selected');
+    });
   },
 };
 
