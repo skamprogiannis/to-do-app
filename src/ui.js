@@ -230,6 +230,7 @@ function createNewTaskForm() {
   const cancelButton = document.createElement("button");
   cancelButton.textContent = "Cancel";
   cancelButton.classList.add("cancel-button");
+  cancelButton.setAttribute("type", "button");
   buttonContainer.appendChild(cancelButton);
   const confirmButton = document.createElement("button");
   confirmButton.textContent = "Confirm";

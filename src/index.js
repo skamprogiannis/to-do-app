@@ -262,7 +262,7 @@ export const stateManager = {
       createTaskForm.addEventListener("submit", (event) =>
         this.handleNewTaskFormSubmit(event, projectIndex)
       );
-      this.attachTaskFormButtonEventListeners(createTaskForm);
+      this.attachTaskFormEventListeners(createTaskForm);
     });
   },
 
@@ -291,7 +291,7 @@ export const stateManager = {
     ui.renderTask(newTask);
   },
 
-  attachTaskFormButtonEventListeners(createTaskForm) {
+  attachTaskFormEventListeners(createTaskForm) {
     const confirmButton = createTaskForm.querySelector(".confirm-button");
     const cancelButton = createTaskForm.querySelector(".cancel-button");
     const dueDateInput = createTaskForm.querySelector(".due-date-input");
@@ -300,7 +300,8 @@ export const stateManager = {
       dueDateInput.setCustomValidity("");
     });
 
-    confirmButton.addEventListener("click", () => {
+    confirmButton.addEventListener("click", (event) => {
+      event.preventDefault();
       if (createTaskForm.checkValidity()) {
         createTaskForm.requestSubmit();
       } else {
