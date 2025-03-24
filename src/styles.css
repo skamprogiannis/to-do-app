@@ -60,7 +60,7 @@ h6 {
   --header-bg-color: #68af7c;
   --header-text-color: #1d1c1c;
   --section-border-color: rgb(160, 160, 160);
-  --sidebar-bg-color: rgb(221, 221, 221);
+  --sidebar-bg-color: white;
   --sidebar-h2-bg-color: linear-gradient(to right, #68af7c, #4cae3d);
   --confirm-btn-bg-color: rgb(34, 150, 45);
   --cancel-btn-bg-color: rgb(187, 16, 16);
@@ -136,7 +136,6 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--section-border-color);
   padding: 15px;
   font-size: 1.15rem;
   background-color: var(--header-bg-color);
@@ -214,7 +213,6 @@ main {
   min-width: 150px;
   background-color: var(--sidebar-bg-color);
   overflow-y: auto;
-  border-right: 2px solid var(--section-border-color);
   cursor: default;
 }
 
@@ -272,12 +270,12 @@ main {
 }
 
 .home ul li button:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.15);
 }
 
 .home ul li button.selected,
 .project-list li.selected {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.15);
   font-weight: 600;
 }
 
@@ -338,13 +336,12 @@ main {
   cursor: pointer;
   padding: 2px;
   border-radius: 50%;
-  transition: background-color 0.2s;
   width: 27.5px;
   height: auto;
 }
 
 .project-list li:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.15);
 }
 
 .project-list::-webkit-scrollbar,
