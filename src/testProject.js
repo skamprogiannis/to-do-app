@@ -5,7 +5,7 @@ import { stateManager } from './index.js';
 
 export function addMetaTestProject() {
   if (stateManager.projects.length === 0) {
-    const meta = new Project("meta");
+    const meta = new Project("Meta");
     const shia = new Task("Shia", "", "2025-03-13", "High");
     shia.toggleCompleted();
     const theme = new Task("Add Theme Toggle", "Add the ability to change between Light and Dark mode", "2025-03-13", "Medium");
