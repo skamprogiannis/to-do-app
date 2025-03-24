@@ -101,7 +101,7 @@ export const stateManager = {
     localStorage.setItem("projects", JSON.stringify(this.projects));
   },
 
-  saveTaskData(newTask) {
+  saveNewTaskData(newTask) {
     // const project = this.projects.find(
     //   (project) => project.id === newTask.projectID
     // );
@@ -409,7 +409,7 @@ export const stateManager = {
       projectID
     );
 
-    this.saveTaskData(newTask);
+    this.saveNewTaskData(newTask);
     ui.renderTask(newTask);
     this.attachTaskRowEventListeners(newTask);
   },
