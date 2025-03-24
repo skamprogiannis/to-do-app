@@ -25,7 +25,6 @@ class Task {
   }
   toggleCompleted() {
     this.completed = !this.completed;
-    console.log("tasks.js: task completed is now:", this.completed);
   }
 }
 

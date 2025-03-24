@@ -22,33 +22,6 @@ export const stateManager = {
     this.selectAllTasks();
   },
 
-  // loadProjectsFromLocalStorage() {
-  //   const storedProjectsData = localStorage.getItem("projects");
-  //   this.projects = storedProjectsData
-  //     ? JSON.parse(storedProjectsData).map(
-  //         (projectData) =>
-  //           new Project(
-  //             projectData.name,
-  //             projectData.tasks.map(
-  //               (task) =>
-  //                 new Task(
-  //                   task.title,
-  //                   task.description,
-  //                   task.dueDate,
-  //                   task.priority,
-  //                   task.completed,
-  //                   task.projectID,
-  //                   task.id
-  //                 )
-  //             ),
-  //             projectData.id
-  //           )
-  //       )
-  //     : [];
-
-  //   ui.renderProjects(this.projects);
-  // },
-
   loadProjectsFromLocalStorage() {
     const storedProjectsData = localStorage.getItem("projects");
     console.log(
@@ -111,60 +84,20 @@ export const stateManager = {
   },
 
   saveNewTaskData(newTask) {
-    // const project = this.projects.find(
-    //   (project) => project.id === newTask.projectID
-    // );
 
-    console.log("Saving task:", newTask); // Debugging
-    console.log("Projects:", this.projects); // Debugging
+    console.log("Saving task:", newTask);
+    console.log("Projects:", this.projects);
     const project = this.projects.find(
       (project) => project.id === newTask.projectID
     );
     if (!project) {
-      console.log("Project not found when saving task."); //debugging
+      console.log("Project not found when saving task.");
       return;
     }
 
     project.tasks.push(newTask);
     localStorage.setItem("projects", JSON.stringify(this.projects));
   },
-
-  // editTaskData(updatedTask) {
-  //   // const project = this.projects.find(
-  //   //   (project) => project.id === updatedTask.projectID
-  //   // );
-  //   // if (!project) {
-  //   //   console.log("Project not found");
-  //   //   return;
-  //   // }
-  //   // const task = project.tasks.find((task) => task.id === updatedTask.id);
-  //   // if (!task) {
-  //   //   console.log("Task not found");
-  //   //   return;
-  //   // }
-  //   // Object.assign(task, updatedTask);
-  //   // console.log("Updated task:", task);
-  //   // localStorage.setItem("projects", JSON.stringify(this.projects));
-  //   // console.log("LocalStorage saved:", localStorage.getItem("projects"));
-
-  //   const project = this.projects.find(
-  //     (project) => project.id === updatedTask.projectID
-  //   );
-  //   if (!project) {
-  //     console.log("Project not found");
-  //     return;
-  //   }
-  //   const task = project.tasks.find((task) => task.id === updatedTask.id);
-  //   if (!task) {
-  //     console.log("Task not found");
-  //     return;
-  //   }
-  //   Object.assign(task, updatedTask);
-  //   console.log("Updated task:", task);
-  //   localStorage.setItem("projects", JSON.stringify(this.projects));
-  //   console.log("LocalStorage saved:", localStorage.getItem("projects"));
-
-  // },
 
   editTaskData(updatedTask) {
     console.log("editTaskData: updatedTask before:", updatedTask);
@@ -430,58 +363,6 @@ export const stateManager = {
     ui.renderTask(newTask);
     this.attachTaskRowEventListeners(newTask);
   },
-
-  // attachTaskRowEventListeners(task) {
-  //   // const taskRow = document.querySelector(`[data-id="${task.id}"]`);
-  //   // const checkbox = taskRow.querySelector(".task-checkbox");
-
-  //   // checkbox.addEventListener("change", () => {
-  //   //   task.toggleCompleted();
-  //   //   editTaskData(task);
-  //   // });
-
-  //   const taskRow = document.querySelector(`[data-id="${task.id}"]`);
-  //   if (!taskRow) {
-  //     console.log("Task row not found for task ID:", task.id);
-  //     return;
-  //   }
-
-  //   const checkbox = taskRow.querySelector(".task-checkbox");
-  //   if (!checkbox) {
-  //     console.log("Checkbox not found for task ID:", task.id);
-  //     return;
-  //   }
-
-  //   checkbox.addEventListener("change", () => {
-  //     console.log("Checkbox clicked for task ID:", task.id);
-  //     task.toggleCompleted();
-  //     console.log("Task completed state:", task.completed);
-  //     this.editTaskData(task);
-  //   });
-  // },
-
-  // attachTaskRowEventListeners(task) {
-  //   const taskRow = document.querySelector(`[data-id="${task.id}"]`);
-  //   if (!taskRow) {
-  //     console.log("Task row not found for task ID:", task.id);
-  //     return;
-  //   }
-
-  //   const checkbox = taskRow.querySelector(".task-checkbox");
-  //   if (!checkbox) {
-  //     console.log("Checkbox not found for task ID:", task.id);
-  //     return;
-  //   }
-
-  //   checkbox.addEventListener("change", () => {
-  //     console.log("Checkbox clicked for task ID:", task.id);
-  //     console.log("attachTaskRowEventListeners: task.completed before toggle:", task.completed);
-  //     task.toggleCompleted();
-  //     console.log("attachTaskRowEventListeners: task.completed after toggle:", task.completed);
-  //     console.log("attachTaskRowEventListeners: task before editTaskData:", task);
-  //     this.editTaskData(task);
-  //   });
-  // },
 
   attachTaskRowEventListeners(task) {
     const taskRow = document.querySelector(`[data-id="${task.id}"]`);
