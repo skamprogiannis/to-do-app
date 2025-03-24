@@ -111,10 +111,12 @@ function renderTask(task) {
   checkbox.setAttribute("type", "checkbox");
   checkbox.checked = task.completed;
   checkbox.classList.add("task-checkbox");
+
   const title = document.createElement("span");
   title.textContent = task.title;
+
   const dueDate = document.createElement("span");
-  dueDate.textContent = task.dueDate;
+  dueDate.textContent = `Due: ${task.dueDate}`;
 
   const priority = document.createElement("span");
   priority.textContent = task.priority;
