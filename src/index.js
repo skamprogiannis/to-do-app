@@ -317,6 +317,7 @@ export const stateManager = {
   attachAddTaskEventListener(project) {
     const addTaskButton = document.querySelector(".add-task-button");
     addTaskButton.addEventListener("click", () => {
+      addTaskButton.disabled = true;
       const createTaskForm = ui.createNewTaskForm();
       const tasksSection = document.querySelector(".tasks-section");
       tasksSection.appendChild(createTaskForm);
@@ -352,6 +353,9 @@ export const stateManager = {
       prioritySelector.value
     );
 
+    const addTaskButton = document.querySelector(".add-task-button");
+    addTaskButton.disabled = false;
+
     this.saveNewTaskData(newTask);
     ui.renderTask(newTask);
     this.attachTaskRowEventListeners(newTask);
@@ -376,6 +380,8 @@ export const stateManager = {
     });
 
     cancelButton.addEventListener("click", () => {
+      const addTaskButton = document.querySelector(".add-task-button");
+      addTaskButton.disabled = false;
       createTaskForm.remove();
     });
   },
