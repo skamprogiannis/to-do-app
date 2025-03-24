@@ -524,7 +524,7 @@ form .cancel-button:hover {
 
 .details-modal {
   position: absolute;
-  left: 15%;
+  left: 45%;
   top: 35%;
   width: 30%;
   background-color: var(--modal-background-color);
@@ -592,4 +592,12 @@ form .cancel-button:hover {
   color: #fff;
   padding: 2px 6px;
   border-radius: 3px;
+}
+
+.details-task-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 2px;
+  height: auto;
 }

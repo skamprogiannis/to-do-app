@@ -154,6 +154,11 @@ function renderTask(task) {
   tasksContainer.appendChild(taskDOM);
 }
 
+function derenderTask(task) {
+  const taskDOM = document.querySelector(`.task-row[data-id="${task.id}"]`);
+  taskDOM.remove();
+}
+
 function renderTasks(title, tasks, showAddButton = false) {
   const tasksSection = document.querySelector(".tasks-section");
   tasksSection.innerHTML = "";
@@ -312,6 +317,7 @@ export const ui = {
   renderTasksByProject,
   createNewTaskForm,
   renderTask,
+  derenderTask,
   renderImportantTasks,
   renderTodayTasks,
   renderNext7DaysTasks,

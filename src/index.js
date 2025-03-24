@@ -103,24 +103,18 @@ export const stateManager = {
     const project = this.projects.find(
       (project) => project.id === updatedTask.projectID
     );
-    if (!project) {
-      console.log("Project not found");
-      return;
-    }
     const task = project.tasks.find((task) => task.id === updatedTask.id);
-    if (!task) {
-      console.log("Task not found");
-      return;
-    }
-    console.log("editTaskData: task before assign:", task);
     Object.assign(task, updatedTask);
-    console.log("editTaskData: task after assign:", task);
-    console.log("editTaskData: projects before localStorage:", this.projects);
     localStorage.setItem("projects", JSON.stringify(this.projects));
-    console.log(
-      "editTaskData: localStorage after:",
-      localStorage.getItem("projects")
+  },
+
+  removeTaskData(task) {
+    const project = this.projects.find(
+      (project) => project.id === task.projectID
     );
+    const taskIndex = project.tasks.findIndex((t) => t.id === task.id);
+    project.tasks.splice(taskIndex, 1);
+    localStorage.setItem("projects", JSON.stringify(this.projects));
   },
 
   toggleSidebar() {
@@ -398,9 +392,21 @@ export const stateManager = {
     const detailsButton = taskRow.querySelector(".details-task-btn");
     detailsButton.addEventListener("click", () => {
       const detailsModal = ui.createTaskDetailsModal(task);
-      document.body.appendChild(detailsModal);
-      
+      document.body.appendChild(detailsModal);    
       this.attachTaskDetailsModalEventListeners(detailsModal, task);
+    });
+
+    // const editButton = taskRow.querySelector(".edit-task-btn");
+    // editButton.addEventListener("click", () => {
+    //   const editTaskForm = ui.createEditTaskForm(task);
+    //   taskRow.replaceWith(editTaskForm);
+    //   this.attachEditTaskFormEventListeners(editTaskForm, task);
+    // });
+
+    const deleteButton = taskRow.querySelector(".delete-task-btn");
+    deleteButton.addEventListener("click", () => {
+      this.removeTaskData(task);
+      ui.derenderTask(task);
     });
   },
   
