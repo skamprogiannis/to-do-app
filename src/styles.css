@@ -75,6 +75,9 @@ h6 {
   --input-border: #4a90e2;
   --input-shadow: rgba(74, 144, 226, 0.5);
   --modal-background-color: white;
+  --delete-modal-header-color: #d32f2f;
+  --details-modal-save-button-color: rgb(34, 150, 45);
+  --details-modal-save-hover-color: rgb(56, 176, 56);
 }
 
 @keyframes fadeIn {
@@ -449,7 +452,7 @@ form .cancel-button:hover {
 }
 
 .modal-header h3 {
-  color: #d32f2f;
+  color: var(--delete-modal-header-color);
   font-weight: 500;
 }
 
@@ -528,13 +531,11 @@ form .cancel-button:hover {
   animation: slideUp 0.5s ease-out;
 }
 
-/* Style for details modal header */
 .details-modal .modal-header h3 {
-  color: #2c88d9;
+  color: var(--header-text-color);
   font-weight: 500;
 }
 
-/* Styling for the details textarea */
 .details-textarea {
   width: 100%;
   min-height: 150px;
@@ -542,20 +543,20 @@ form .cancel-button:hover {
   border: 1px solid #ddd;
   border-radius: 4px;
   font-family: inherit;
-  font-size: 14px;
+  font-size: 1.1rem;
   resize: vertical;
   background-color: var(--textarea-bg-color, #fff);
   color: var(--text-color);
 }
 
 .details-textarea:focus {
-  border-color: #2c88d9;
+  border-color: var(--input-border);
+  box-shadow: 0 0 6px var(--input-shadow);
   outline: none;
 }
 
-/* Save button styling */
 .save-button {
-  background-color: #2c88d9;
+  background-color: var(--details-modal-save-button-color);
   color: white;
   border: none;
   padding: 8px 16px;
@@ -565,6 +566,6 @@ form .cancel-button:hover {
 }
 
 .save-button:hover {
-  background-color: #1a75c7;
+  background-color: var(--details-modal-save-hover-color);
   animation: buttonBounce 0.4s ease;
 }
