@@ -7,6 +7,7 @@ import { format, isBefore, addDays } from "date-fns";
 
 export const stateManager = {
   projects: [],
+  currentView: null,
 
   initialize() {
     this.loadProjectsFromLocalStorage();
@@ -20,6 +21,7 @@ export const stateManager = {
     this.selectTodayTasks();
     this.selectNext7DaysTasks();
     this.selectAllTasks();
+    document.querySelector('.today-btn').click();
   },
 
   loadProjectsFromLocalStorage() {
@@ -293,15 +295,25 @@ export const stateManager = {
   },
 
   handleDeleteProjectConfirmation(projectID) {
+    const deletedProjectButton = document.querySelector(`li[data-id="${projectID}"] .project-name-btn`);
     this.removeProjectData(projectID);
     ui.renderProjects(this.projects);
+    
+    // Check if we were viewing the deleted project
+    if (deletedProjectButton && deletedProjectButton === this.currentView) {
+      document.querySelector('.today-btn').click();
+    }
   },
 
   selectProject() {
     const projectList = document.querySelector(".project-list");
     projectList.addEventListener("click", (event) => {
       if (event.target.classList.contains("project-name-btn")) {
+        this.clearSelectedView();
         const selectProjectButton = event.target;
+        selectProjectButton.classList.add("selected");
+        this.currentView = selectProjectButton;
+
         const projectID = selectProjectButton.parentElement.dataset.id;
         const project = this.projects.find((p) => p.id === projectID);
 
@@ -443,6 +455,10 @@ export const stateManager = {
   selectTodayTasks() {
     const todayButton = document.querySelector(".today-btn");
     todayButton.addEventListener("click", () => {
+      this.clearSelectedView();
+      todayButton.classList.add("selected");
+      this.currentView = todayButton;
+
       const today = format(new Date(), "yyyy-MM-dd");
       const tasksForToday = this.projects
         .map((project) => project.tasks)
@@ -454,12 +470,15 @@ export const stateManager = {
         this.attachTaskRowEventListeners(task);
       });
     });
-    todayButton.click();
   },
 
   selectNext7DaysTasks() {
     const next7DaysButton = document.querySelector(".next-7-days-btn");
     next7DaysButton.addEventListener("click", () => {
+      this.clearSelectedView();
+      next7DaysButton.classList.add("selected");
+      this.currentView = next7DaysButton;
+
       const next7Days = [];
       for (let i = 0; i < 7; i++) {
         next7Days.push(format(addDays(new Date(), i), "yyyy-MM-dd"));
@@ -479,6 +498,10 @@ export const stateManager = {
   selectAllTasks() {
     const allTasksButton = document.querySelector(".all-tasks-btn");
     allTasksButton.addEventListener("click", () => {
+      this.clearSelectedView();
+      allTasksButton.classList.add("selected");
+      this.currentView = allTasksButton;
+
       const allTasks = this.projects.map((project) => project.tasks).flat();
 
       ui.renderAllTasks(allTasks);
@@ -491,6 +514,10 @@ export const stateManager = {
   selectImportantTasks() {
     const importantButton = document.querySelector(".important-btn");
     importantButton.addEventListener("click", () => {
+      this.clearSelectedView();
+      importantButton.classList.add("selected");
+      this.currentView = importantButton;
+
       const importantTasks = this.projects
         .map((project) => project.tasks)
         .flat()
@@ -538,6 +565,11 @@ export const stateManager = {
       tasksSection.innerHTML = "";
       tasksSection.appendChild(iframe);
     });
+  },
+
+  clearSelectedView() {
+    const allViews = document.querySelectorAll('.home ul li button, .project-name-btn');
+    allViews.forEach(view => view.classList.remove('selected'));
   },
 };
 
