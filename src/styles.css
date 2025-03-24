@@ -569,7 +569,12 @@ form .cancel-button:hover {
   text-align: center;
 }
 
-.task-checkbox:checked + span {
+.task-checkbox:checked ~ span {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.task-checkbox:checked ~ button {
   text-decoration: line-through;
   color: #888;
 }
