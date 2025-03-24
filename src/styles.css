@@ -331,7 +331,9 @@ main {
 }
 
 .edit-project-btn,
-.delete-project-btn {
+.delete-project-btn,
+.edit-task-btn,
+.delete-task-btn {
   border: none;
   background: none;
   cursor: pointer;
@@ -342,11 +344,8 @@ main {
   height: auto;
 }
 
-.project-list li:hover,
-.edit-project-btn:hover,
-.delete-project-btn:hover {
+.project-list li:hover {
   background-color: rgba(0, 0, 0, 0.1);
-  opacity: 1;
 }
 
 .project-list::-webkit-scrollbar,
@@ -611,27 +610,20 @@ form .cancel-button:hover {
   padding: 4px 8px;
   border-radius: 4px;
   transition: background-color 0.2s;
-  width: auto;
-  height: auto;
 }
 
-
-.edit-task-btn,
-.delete-task-btn {
-  border: none;
-  background: none;
-  cursor: pointer;
-  padding: 2px;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-  width: 30px;
-  height: auto;
-}
-
-.details-task-btn:hover,
-.edit-task-btn:hover,
-.delete-task-btn:hover {
+.details-task-btn:hover {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+.edit-project-btn:hover,
+.edit-task-btn:hover {
+  filter: brightness(0) saturate(100%) invert(45%) sepia(98%) saturate(389%) hue-rotate(87deg) brightness(101%) contrast(87%);
+}
+
+.delete-project-btn:hover,
+.delete-task-btn:hover {
+  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(89%) contrast(97%);
 }
 
 .details-modal {
