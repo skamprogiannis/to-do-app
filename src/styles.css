@@ -562,6 +562,13 @@ form .cancel-button:hover {
   padding: 4px 8px;
 }
 
+.task-row span.low-priority,
+.task-row span.medium-priority,
+.task-row span.high-priority {
+  min-width: 70px;
+  text-align: center;
+}
+
 .task-checkbox:checked + span {
   text-decoration: line-through;
   color: #888;
@@ -679,7 +686,8 @@ form .cancel-button:hover {
 }
 
 .tasks-section form input,
-.tasks-section form select {
+.tasks-section form select,
+.tasks-section form textarea {
   width: 100%;
   margin-bottom: 15px;
   padding: 8px;
@@ -689,7 +697,8 @@ form .cancel-button:hover {
 }
 
 .tasks-section form input:focus,
-.tasks-section form select:focus {
+.tasks-section form select:focus,
+.tasks-section form textarea:focus {
   border-color: var(--input-border);
   box-shadow: 0 0 6px var(--input-shadow);
   outline: none;
@@ -702,4 +711,10 @@ form .cancel-button:hover {
 
 .tasks-section form .button-container {
   margin-top: 20px;
+}
+
+.tasks-section form .task-description-input {
+  min-height: 100px;
+  height: 100px;
+  resize: vertical;
 }

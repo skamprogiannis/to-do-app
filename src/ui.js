@@ -222,8 +222,7 @@ function createNewTaskForm() {
   taskNameInput.setAttribute("aria-label", "Task Name");
   taskNameInput.classList.add("task-name-input");
 
-  const taskDescriptionInput = document.createElement("input");
-  taskDescriptionInput.setAttribute("type", "textarea");
+  const taskDescriptionInput = document.createElement("textarea");
   taskDescriptionInput.setAttribute("placeholder", "Description (Optional)");
   taskDescriptionInput.setAttribute("aria-label", "Task Description");
   taskDescriptionInput.classList.add("task-description-input");
