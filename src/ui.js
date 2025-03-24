@@ -6,6 +6,8 @@ function renderProjects(projects) {
     listItem.dataset.id = project.id;
     const projectButton = document.createElement("button");
     projectButton.textContent = project.name;
+    projectButton.setAttribute("aria-label", `View ${project.name}`);
+    projectButton.setAttribute("id", `project-${project.name}`);
     projectButton.classList.add("project-name-btn");
     listItem.appendChild(projectButton);
 

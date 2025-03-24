@@ -86,4 +86,9 @@ export function addMetaTestProject() {
     stateManager.saveProjectData(meta);
     ui.renderProjects(stateManager.projects);
   }
+
+  if (stateManager.projects.some((project) => project.name === "Meta")) {
+    const metaButton = document.querySelector("#project-Meta");
+    metaButton.click();
+  }
 }
