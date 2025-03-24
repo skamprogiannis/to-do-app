@@ -2,7 +2,7 @@ import "./styles.css";
 import Task from "./tasks.js";
 import Project from "./Project.js";
 import { ui } from "./ui.js";
-import { meta } from "./testProject.js";
+import { addMetaTestProject } from "./testProject.js";
 import { format, isBefore, addDays } from "date-fns";
 
 export const stateManager = {
@@ -401,4 +401,4 @@ export const stateManager = {
 };
 
 stateManager.initialize();
-meta();
+addMetaTestProject();

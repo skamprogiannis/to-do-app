@@ -3,7 +3,7 @@ import Task from "./tasks.js";
 import { ui } from "./ui.js";
 import { stateManager } from './index.js';
 
-export function meta() {
+export function addMetaTestProject() {
   if (stateManager.projects.length === 0) {
     const meta = new Project("meta");
     const shia = new Task("Shia", "", "2025-03-13", "High");
