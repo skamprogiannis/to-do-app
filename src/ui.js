@@ -164,6 +164,13 @@ function renderTasks(title, tasks, showAddButton = false) {
   tasksContainer.classList.add("tasks-container");
   tasksSection.appendChild(tasksContainer);
 
+  if (tasks.length === 0) {
+    const noTasksMessage = document.createElement("p");
+    noTasksMessage.textContent = "No tasks to show.";
+    tasksContainer.appendChild(noTasksMessage);
+    return tasksSection;
+  }
+  
   tasks.forEach((task) => {
     renderTask(task);
   });
