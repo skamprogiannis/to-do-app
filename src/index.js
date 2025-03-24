@@ -18,7 +18,7 @@ export const stateManager = {
     this.selectProject();
     this.selectImportantTasks();
     this.selectTodayTasks();
-    this.selectNextWeekTasks();
+    this.selectNext7DaysTasks();
     this.selectAllTasks();
   },
 
@@ -326,7 +326,7 @@ export const stateManager = {
     });
   },
 
-  selectNextWeekTasks() {
+  selectNext7DaysTasks() {
     const next7DaysButton = document.querySelector(".next-7-days-btn");
     next7DaysButton.addEventListener("click", () => {
       const next7Days = [];
