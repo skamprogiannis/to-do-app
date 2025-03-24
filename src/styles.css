@@ -141,6 +141,7 @@ header {
   font-size: 1.15rem;
   background-color: var(--header-bg-color);
   color: var(--header-text-color);
+  cursor: default;
 }
 
 .branding {
@@ -215,6 +216,7 @@ main {
   background-color: var(--sidebar-bg-color);
   overflow-y: auto;
   border-right: 2px solid var(--section-border-color);
+  cursor: default;
 }
 
 .hidden {
