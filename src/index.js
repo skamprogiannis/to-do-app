@@ -36,9 +36,12 @@ export const stateManager = {
                     task.description,
                     task.dueDate,
                     task.priority,
-                    task.completed
+                    task.completed,
+                    task.projectId,
+                    task.id
                   )
-              )
+              ),
+              projectData.id
             )
         )
       : [];
@@ -61,18 +64,61 @@ export const stateManager = {
     localStorage.setItem("projects", JSON.stringify(this.projects));
   },
 
-  saveTaskData(newTask, projectIndex) {
-    this.projects[projectIndex].tasks.push(newTask);
+  saveTaskData(newTask) {
+    // const project = this.projects.find(
+    //   (project) => project.id === newTask.projectId
+    // );
+
+    console.log("Saving task:", newTask); // Debugging
+    console.log("Projects:", this.projects); // Debugging
+    const project = this.projects.find(
+      (project) => project.id === newTask.projectId
+    );
+    if (!project) {
+      console.log("Project not found when saving task."); //debugging
+      return;
+    }
+
+
+    project.tasks.push(newTask);
     localStorage.setItem("projects", JSON.stringify(this.projects));
   },
 
-  editTaskData(task, projectIndex) {
-    const project = this.projects[projectIndex];
-    const taskIndex = project.tasks.findIndex(
-      (existingTask) => existingTask.title === task.title
+  editTaskData(updatedTask) {
+    // const project = this.projects.find(
+    //   (project) => project.id === updatedTask.projectId
+    // );
+    // if (!project) {
+    //   console.log("Project not found");
+    //   return;
+    // }
+    // const task = project.tasks.find((task) => task.id === updatedTask.id);
+    // if (!task) {
+    //   console.log("Task not found");
+    //   return;
+    // }
+    // Object.assign(task, updatedTask);
+    // console.log("Updated task:", task);
+    // localStorage.setItem("projects", JSON.stringify(this.projects));
+    // console.log("LocalStorage saved:", localStorage.getItem("projects"));
+
+    const project = this.projects.find(
+      (project) => project.id === updatedTask.projectId
     );
-    project.tasks[taskIndex] = task;
+    if (!project) {
+      console.log("Project not found");
+      return;
+    }
+    const task = project.tasks.find((task) => task.id === updatedTask.id);
+    if (!task) {
+      console.log("Task not found");
+      return;
+    }
+    Object.assign(task, updatedTask);
+    console.log("Updated task:", task);
     localStorage.setItem("projects", JSON.stringify(this.projects));
+    console.log("LocalStorage saved:", localStorage.getItem("projects"));
+
   },
 
   toggleSidebar() {
@@ -285,6 +331,8 @@ export const stateManager = {
     );
     const dueDateInput = newTaskForm.querySelector(".due-date-input");
     const prioritySelector = newTaskForm.querySelector(".priority-selector");
+    const project = this.projects[projectIndex]; // Get the current project
+    const projectID = project.id; // Use project UUID
 
     const isValidDate = this.validateDateInput(dueDateInput);
     if (!isValidDate) {
@@ -295,24 +343,40 @@ export const stateManager = {
       taskNameInput.value.trim(),
       taskDescriptionInput.value.trim(),
       dueDateInput.value,
-      prioritySelector.value
+      prioritySelector.value,
+      projectID
     );
-    this.saveTaskData(newTask, projectIndex);
+    this.saveTaskData(newTask);
     ui.renderTask(newTask);
     this.attachTaskRowEventListeners(newTask);
   },
 
-  attachTaskRowEventListeners(task, projectIndex) {
-    const taskRow = document.querySelector(`[data-title="${task.title}"]`);
-    //this is not finished
-    const editTaskButton = taskRow.querySelector(".edit-task-btn");
-    const deleteTaskButton = taskRow.querySelector(".delete-task-btn");
-    //this is not finished
+  attachTaskRowEventListeners(task) {
+    // const taskRow = document.querySelector(`[data-id="${task.id}"]`);
+    // const checkbox = taskRow.querySelector(".task-checkbox");
+
+    // checkbox.addEventListener("change", () => {
+    //   task.toggleCompleted();
+    //   editTaskData(task);
+    // });
+
+    const taskRow = document.querySelector(`[data-id="${task.id}"]`);
+    if (!taskRow) {
+      console.log("Task row not found for task ID:", task.id);
+      return;
+    }
+
     const checkbox = taskRow.querySelector(".task-checkbox");
+    if (!checkbox) {
+      console.log("Checkbox not found for task ID:", task.id);
+      return;
+    }
 
     checkbox.addEventListener("change", () => {
+      console.log("Checkbox clicked for task ID:", task.id);
       task.toggleCompleted();
-      editTaskData(task, projectIndex);
+      console.log("Task completed state:", task.completed);
+      this.editTaskData(task);
     });
   },
 
@@ -349,6 +413,9 @@ export const stateManager = {
         .filter((task) => task.dueDate === today);
 
       ui.renderTodayTasks(tasksForToday);
+      tasksForToday.forEach((task) => {
+        this.attachTaskRowEventListeners(task);
+      });
     });
   },
 
@@ -365,6 +432,9 @@ export const stateManager = {
         .filter((task) => next7Days.includes(task.dueDate));
 
       ui.renderNext7DaysTasks(tasksForNext7Days);
+      tasksForNext7Days.forEach((task) => {
+        this.attachTaskRowEventListeners(task);
+      });
     });
   },
 
@@ -372,7 +442,11 @@ export const stateManager = {
     const allTasksButton = document.querySelector(".all-tasks-btn");
     allTasksButton.addEventListener("click", () => {
       const allTasks = this.projects.map((project) => project.tasks).flat();
+
       ui.renderAllTasks(allTasks);
+      allTasks.forEach((task) => {
+        this.attachTaskRowEventListeners(task);
+      });
     });
   },
 
@@ -385,6 +459,9 @@ export const stateManager = {
         .filter((task) => task.priority === "High");
 
       ui.renderImportantTasks(importantTasks);
+      importantTasks.forEach((task) => {
+        this.attachTaskRowEventListeners(task);
+      });
     });
   },
 

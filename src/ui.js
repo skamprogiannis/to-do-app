@@ -121,13 +121,11 @@ function renderTask(task) {
   const editButton = document.createElement("button");
   editButton.innerHTML = '<img src="/images/edit_note_32dp.png">';
   editButton.classList.add("edit-task-btn");
-  // editButton.dataset.index = index;
   editButton.setAttribute("aria-label", `Edit ${task.title}`);
 
   const deleteButton = document.createElement("button");
   deleteButton.innerHTML = '<img src="/images/delete_32dp.png">';
   deleteButton.classList.add("delete-task-btn");
-  // deleteButton.dataset.index = index;
   deleteButton.setAttribute("aria-label", `Delete ${task.title}`);
 
   const buttonContainer = document.createElement("div");
@@ -137,7 +135,7 @@ function renderTask(task) {
 
   const taskDOM = document.createElement("div");
   taskDOM.classList.add("task-row");
-  taskDOM.setAttribute("id", task.title);
+  taskDOM.dataset.id = task.id;
   taskDOM.appendChild(checkbox);
   taskDOM.appendChild(title);
   taskDOM.appendChild(dueDate);
