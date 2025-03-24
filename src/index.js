@@ -300,15 +300,15 @@ export const stateManager = {
     projectList.addEventListener("click", (event) => {
       if (event.target.classList.contains("project-name-btn")) {
         const selectProjectButton = event.target;
-        const projectIndex = selectProjectButton.parentElement.dataset.index;
-        const project = this.projects[projectIndex];
+        const projectId = selectProjectButton.parentElement.dataset.id;
+        const project = this.projects.find((p) => p.id === projectId);
         ui.renderTasksByProject(project);
-        this.attachAddTaskEventListener(projectIndex);
+        this.attachAddTaskEventListener(project);
       }
     });
   },
 
-  attachAddTaskEventListener(projectIndex) {
+  attachAddTaskEventListener(project) {
     const addTaskButton = document.querySelector(".add-task-button");
     addTaskButton.addEventListener("click", () => {
       const createTaskForm = ui.createNewTaskForm();
@@ -316,13 +316,13 @@ export const stateManager = {
       tasksSection.appendChild(createTaskForm);
 
       createTaskForm.addEventListener("submit", (event) =>
-        this.handleNewTaskFormSubmit(event, projectIndex)
+        this.handleNewTaskFormSubmit(event, project)
       );
       this.attachTaskFormEventListeners(createTaskForm);
     });
   },
 
-  handleNewTaskFormSubmit(event, projectIndex) {
+  handleNewTaskFormSubmit(event, project) {
     event.preventDefault();
     const newTaskForm = event.target;
     const taskNameInput = newTaskForm.querySelector(".task-name-input");
@@ -331,7 +331,6 @@ export const stateManager = {
     );
     const dueDateInput = newTaskForm.querySelector(".due-date-input");
     const prioritySelector = newTaskForm.querySelector(".priority-selector");
-    const project = this.projects[projectIndex]; // Get the current project
     const projectID = project.id; // Use project UUID
 
     const isValidDate = this.validateDateInput(dueDateInput);
@@ -344,6 +343,7 @@ export const stateManager = {
       taskDescriptionInput.value.trim(),
       dueDateInput.value,
       prioritySelector.value,
+      false,
       projectID
     );
     this.saveTaskData(newTask);

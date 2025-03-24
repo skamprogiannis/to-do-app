@@ -1,9 +1,9 @@
 function renderProjects(projects) {
   const projectList = document.querySelector(".project-list");
   projectList.innerHTML = "";
-  projects.forEach((project, index) => {
+  projects.forEach((project) => {
     const listItem = document.createElement("li");
-    listItem.dataset.index = index;
+    listItem.dataset.id = project.id;
     const projectButton = document.createElement("button");
     projectButton.textContent = project.name;
     projectButton.classList.add("project-name-btn");
@@ -15,14 +15,12 @@ function renderProjects(projects) {
     const editButton = document.createElement("button");
     editButton.innerHTML = '<img src="/images/edit_note_32dp.png">';
     editButton.classList.add("edit-project-btn");
-    editButton.dataset.index = index;
     editButton.setAttribute("aria-label", `Edit ${project.name}`);
     buttonContainer.appendChild(editButton);
 
     const deleteButton = document.createElement("button");
     deleteButton.innerHTML = '<img src="/images/delete_32dp.png">';
     deleteButton.classList.add("delete-project-btn");
-    deleteButton.dataset.index = index;
     deleteButton.setAttribute("aria-label", `Delete ${project.name}`);
     buttonContainer.appendChild(deleteButton);
 
