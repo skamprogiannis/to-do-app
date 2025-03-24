@@ -1,13 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 
 class Task {
-  constructor(title, description, dueDate, priority, completed = false, projectID, id = null) {
+  constructor(projectID, title, description, dueDate, priority, completed = false, id = null) {
+    this.projectID = projectID;
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
     this.completed = completed;
-    this.projectID = projectID;
     this.id = id || uuidv4(); // If no ID is provided, generate a new one
   }
 

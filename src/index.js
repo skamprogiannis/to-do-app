@@ -51,7 +51,10 @@ export const stateManager = {
 
   loadProjectsFromLocalStorage() {
     const storedProjectsData = localStorage.getItem("projects");
-    console.log("loadProjectsFromLocalStorage: storedProjectsData:", storedProjectsData);
+    console.log(
+      "loadProjectsFromLocalStorage: storedProjectsData:",
+      storedProjectsData
+    );
     if (storedProjectsData) {
       this.projects = JSON.parse(storedProjectsData).map(
         (projectData) =>
@@ -60,29 +63,33 @@ export const stateManager = {
             projectData.tasks.map(
               (task) =>
                 new Task(
+                  task.projectID,
                   task.title,
                   task.description,
                   task.dueDate,
                   task.priority,
                   task.completed,
-                  task.projectID,
                   task.id
                 )
             ),
             projectData.id
           )
       );
-      console.log("loadProjectsFromLocalStorage: parsed projects:", this.projects);
-      if(this.projects.length>0 && this.projects[0].tasks.length > 0){
-        console.log("loadProjectsFromLocalStorage: first task completed:", this.projects[0].tasks[0].completed);
+      console.log(
+        "loadProjectsFromLocalStorage: parsed projects:",
+        this.projects
+      );
+      if (this.projects.length > 0 && this.projects[0].tasks.length > 0) {
+        console.log(
+          "loadProjectsFromLocalStorage: first task completed:",
+          this.projects[0].tasks[0].completed
+        );
       }
-  
     } else {
       this.projects = [];
     }
     ui.renderProjects(this.projects);
   },
-  
 
   saveProjectData(newProject) {
     this.projects.push(newProject);
@@ -90,13 +97,15 @@ export const stateManager = {
   },
 
   editProjectData(project) {
-    const projectIndex = this.projects.findIndex(p => p.id === project.id);
+    const projectIndex = this.projects.findIndex((p) => p.id === project.id);
     this.projects[projectIndex].name = project.name;
     localStorage.setItem("projects", JSON.stringify(this.projects));
   },
 
   removeProjectData(projectID) {
-    const projectIndex = this.projects.findIndex(project => project.id === projectID);
+    const projectIndex = this.projects.findIndex(
+      (project) => project.id === projectID
+    );
     this.projects.splice(projectIndex, 1);
     localStorage.setItem("projects", JSON.stringify(this.projects));
   },
@@ -115,7 +124,6 @@ export const stateManager = {
       console.log("Project not found when saving task."); //debugging
       return;
     }
-
 
     project.tasks.push(newTask);
     localStorage.setItem("projects", JSON.stringify(this.projects));
@@ -177,7 +185,10 @@ export const stateManager = {
     console.log("editTaskData: task after assign:", task);
     console.log("editTaskData: projects before localStorage:", this.projects);
     localStorage.setItem("projects", JSON.stringify(this.projects));
-    console.log("editTaskData: localStorage after:", localStorage.getItem("projects"));
+    console.log(
+      "editTaskData: localStorage after:",
+      localStorage.getItem("projects")
+    );
   },
 
   toggleSidebar() {
@@ -252,16 +263,18 @@ export const stateManager = {
         this.disableProjectButtons(true);
 
         const projectID = editButton.closest("li").dataset.id;
-        const linkedProject = this.projects.find(project => project.id === projectID);
+        const linkedProject = this.projects.find(
+          (project) => project.id === projectID
+        );
         const currentProjectName = linkedProject.name;
         const editProjectNameForm =
-          ui.createEditProjectNameForm(currentProjectName); 
+          ui.createEditProjectNameForm(currentProjectName);
 
-          const projectListItems = document.querySelectorAll(".project-list li");
-          const projectItem = Array.from(projectListItems).find(
-            item => item.dataset.id === projectID
-          );
-          projectItem.replaceWith(editProjectNameForm);
+        const projectListItems = document.querySelectorAll(".project-list li");
+        const projectItem = Array.from(projectListItems).find(
+          (item) => item.dataset.id === projectID
+        );
+        projectItem.replaceWith(editProjectNameForm);
 
         const projectNameInput = editProjectNameForm.querySelector("input");
         projectNameInput.focus();
@@ -279,7 +292,9 @@ export const stateManager = {
     const editProjectNameForm = event.target;
     const projectNameInput = editProjectNameForm.querySelector("input");
     const updatedProjectName = projectNameInput.value.trim();
-    const projectToEdit = this.projects.find(project => project.id === projectID); 
+    const projectToEdit = this.projects.find(
+      (project) => project.id === projectID
+    );
 
     projectToEdit.editName(updatedProjectName);
     this.editProjectData(projectToEdit);
@@ -315,13 +330,12 @@ export const stateManager = {
 
         const projectItem = deleteButton.closest("li");
         const projectID = projectItem.dataset.id;
-        const linkedProject = this.projects.find(project => project.id === projectID);
+        const linkedProject = this.projects.find(
+          (project) => project.id === projectID
+        );
         const projectName = linkedProject.name;
 
-        const deleteModal = ui.createDeleteProjectModal(
-          projectName,
-          projectID
-        );
+        const deleteModal = ui.createDeleteProjectModal(projectName, projectID);
         document.body.appendChild(deleteModal);
 
         this.attachDeleteProjectModalEventListeners(deleteModal, projectID);
@@ -364,8 +378,12 @@ export const stateManager = {
         const selectProjectButton = event.target;
         const projectID = selectProjectButton.parentElement.dataset.id;
         const project = this.projects.find((p) => p.id === projectID);
+
         ui.renderTasksByProject(project);
         this.attachAddTaskEventListener(project);
+        project.tasks.forEach((task) => {
+          this.attachTaskRowEventListeners(task);
+        });
       }
     });
   },
@@ -401,12 +419,11 @@ export const stateManager = {
     }
 
     const newTask = new Task(
+      projectID,
       taskNameInput.value.trim(),
       taskDescriptionInput.value.trim(),
       dueDateInput.value,
-      prioritySelector.value,
-      false,
-      projectID
+      prioritySelector.value
     );
 
     this.saveNewTaskData(newTask);
@@ -449,13 +466,13 @@ export const stateManager = {
   //     console.log("Task row not found for task ID:", task.id);
   //     return;
   //   }
-  
+
   //   const checkbox = taskRow.querySelector(".task-checkbox");
   //   if (!checkbox) {
   //     console.log("Checkbox not found for task ID:", task.id);
   //     return;
   //   }
-  
+
   //   checkbox.addEventListener("change", () => {
   //     console.log("Checkbox clicked for task ID:", task.id);
   //     console.log("attachTaskRowEventListeners: task.completed before toggle:", task.completed);
@@ -472,15 +489,15 @@ export const stateManager = {
       console.log("Task row not found for task ID:", task.id);
       return;
     }
-  
+
     const checkbox = taskRow.querySelector(".task-checkbox");
     if (!checkbox) {
       console.log("Checkbox not found for task ID:", task.id);
       return;
     }
-  
+
     console.log("Checkbox found:", checkbox); // Log the checkbox element
-    
+
     if (!checkbox.hasAttribute("data-listener-attached")) {
       checkbox.addEventListener("change", () => {
         console.log("Checkbox clicked for task ID:", task.id);
@@ -489,7 +506,7 @@ export const stateManager = {
         console.log("After toggle, task.completed:", task.completed);
         this.editTaskData(task);
       });
-  
+
       checkbox.setAttribute("data-listener-attached", "true");
     }
   },
