@@ -333,7 +333,7 @@ main {
   border: none;
   background: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 2px;
   border-radius: 50%;
   transition: background-color 0.2s;
   width: 27.5px;
@@ -619,10 +619,10 @@ form .cancel-button:hover {
   border: none;
   background: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 2px;
   border-radius: 50%;
   transition: background-color 0.2s;
-  width: 27.5px;
+  width: 30px;
   height: auto;
 }
 
