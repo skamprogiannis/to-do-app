@@ -6,49 +6,43 @@ import { stateManager } from './index.js';
 export function meta() {
   if (stateManager.projects.length === 0) {
     const meta = new Project("meta");
-    const shia = new Task("shia", "", "2025-03-13", "High");
+    const shia = new Task("Shia", "", "2025-03-13", "High");
     shia.toggleCompleted();
-    const theme = new Task("Add Theme Toggle", "", "2025-03-13", "Low");
+    const theme = new Task("Add Theme Toggle", "Add the ability to change between Light and Dark mode", "2025-03-13", "Medium");
     const validationTask = new Task(
-      "Add validation to project and task creation forms",
-      "",
-      "2025-03-20",
-      "Medium"
+      "Add Validation To Project And Task Creation Forms",
+      "The user should not be able to create projects or tasks without a name or with the same name as existing projects or tasks",
+      "2025-03-30",
+      "Low"
     );
-    const darkModeTask = new Task(
-      "Implement Dark Mode",
-      "",
-      "2025-03-20",
-      "Medium"
-    );
-    const backendTask = new Task("Add backend", "", "2025-03-25", "High");
+    const backendTask = new Task("Add Backend", "Currently everything is stored in localStorage. Spin up a server with node.js", "2025-03-28", "High");
     const responsiveDesignTask = new Task(
-      "Make design responsive",
+      "Make Design More Responsive",
       "",
-      "2025-03-25",
+      "2025-03-26",
       "Medium"
     );
     const readmeTask = new Task("Write README", "", "2025-03-30", "Low");
     const sidebarToggleTask = new Task(
-      "Add CSS effects for sidebar toggle",
+      "Add CSS Animations For Sidebar Toggle",
       "",
       "2025-03-30",
       "Low"
     );
     const refactorRenderingTask = new Task(
-      "Refactor project rendering",
+      "Refactor Project Rendering Functions",
       "Instead of always deleting all projects and re-rendering them, it should be possible to add/remove a single project from the dom from the DOM",
       "2025-03-30",
-      "High"
+      "Low"
     );
     const accessibilityTask = new Task(
-      "Improve accessibility",
+      "Improve Accessibility",
       "",
       "2025-03-30",
       "Medium"
     );
     const authTask = new Task(
-      "Add user profiles and Authentication",
+      "Add User Profiles and Authentication",
       "",
       "2025-04-05",
       "High"
@@ -57,7 +51,6 @@ export function meta() {
     meta.addTask(shia);
     meta.addTask(theme);
     meta.addTask(validationTask);
-    meta.addTask(darkModeTask);
     meta.addTask(backendTask);
     meta.addTask(responsiveDesignTask);
     meta.addTask(readmeTask);
