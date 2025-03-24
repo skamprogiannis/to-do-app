@@ -365,30 +365,29 @@ export const stateManager = {
 
   attachTaskRowEventListeners(task) {
     const taskRow = document.querySelector(`[data-id="${task.id}"]`);
-    if (!taskRow) {
-      console.log("Task row not found for task ID:", task.id);
-      return;
-    }
 
     const checkbox = taskRow.querySelector(".task-checkbox");
-    if (!checkbox) {
-      console.log("Checkbox not found for task ID:", task.id);
-      return;
-    }
-
-    console.log("Checkbox found:", checkbox); // Log the checkbox element
-
-    if (!checkbox.hasAttribute("data-listener-attached")) {
-      checkbox.addEventListener("change", () => {
-        console.log("Checkbox clicked for task ID:", task.id);
-        console.log("Before toggle, task.completed:", task.completed);
-        task.toggleCompleted();
-        console.log("After toggle, task.completed:", task.completed);
-        this.editTaskData(task);
-      });
-
-      checkbox.setAttribute("data-listener-attached", "true");
-    }
+    checkbox.addEventListener("change", () => {
+      console.log("Checkbox clicked for task ID:", task.id);
+      console.log("Before toggle, task.completed:", task.completed);
+      task.toggleCompleted();
+      console.log("After toggle, task.completed:", task.completed);
+      this.editTaskData(task);
+    });
+    const detailsButton = taskRow.querySelector(".details-task-btn");
+    const detailsContainer = taskRow.querySelector(".task-details-container");
+    const detailsTextarea = taskRow.querySelector(".task-details-textarea");
+    detailsButton.addEventListener("click", () => {
+      if (detailsContainer.style.display === "none") {
+        detailsContainer.style.display = "block";
+        detailsTextarea.focus();
+      } else {
+        detailsContainer.style.display = "none";
+      }
+    });
+    detailsTextarea.addEventListener("blur", () => {
+      task.description = detailsTextarea.value;
+    });
   },
 
   attachTaskFormEventListeners(createTaskForm) {

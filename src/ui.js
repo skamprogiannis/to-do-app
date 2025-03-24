@@ -118,6 +118,20 @@ function renderTask(task) {
   const priority = document.createElement("span");
   priority.textContent = task.priority;
 
+  const detailsButton = document.createElement("button");
+  detailsButton.textContent = "Details";
+  detailsButton.classList.add("details-task-btn");
+  detailsButton.setAttribute("aria-label", `View details for ${task.title}`);
+  
+  const detailsTextarea = document.createElement("textarea");
+  detailsTextarea.value = task.description;
+  detailsTextarea.classList.add("task-details-textarea");
+
+  const detailsContainer = document.createElement("div");
+  detailsContainer.classList.add("task-details-container");
+  detailsContainer.style.display = "none";
+  detailsContainer.appendChild(detailsTextarea);
+
   const editButton = document.createElement("button");
   editButton.innerHTML = '<img src="/images/edit_note_32dp.png">';
   editButton.classList.add("edit-task-btn");
@@ -141,6 +155,9 @@ function renderTask(task) {
   taskDOM.appendChild(dueDate);
   taskDOM.appendChild(priority);
   taskDOM.appendChild(buttonContainer);
+  taskDOM.appendChild(detailsButton);
+  taskDOM.appendChild(detailsContainer);
+  
   const tasksContainer = document.querySelector(".tasks-container");
   tasksContainer.appendChild(taskDOM);
 }
