@@ -415,12 +415,40 @@ export const stateManager = {
       this.attachTaskDetailsModalEventListeners(detailsModal, task);
     });
 
-    // const editButton = taskRow.querySelector(".edit-task-btn");
-    // editButton.addEventListener("click", () => {
-    //   const editTaskForm = ui.createEditTaskForm(task);
-    //   taskRow.replaceWith(editTaskForm);
-    //   this.attachEditTaskFormEventListeners(editTaskForm, task);
-    // });
+    const editButton = taskRow.querySelector(".edit-task-btn");
+    editButton.addEventListener("click", () => {
+      const editTaskForm = ui.createEditTaskForm(task);
+      taskRow.style.display = 'none';  // Hide the task row
+      taskRow.parentNode.insertBefore(editTaskForm, taskRow);
+
+      editTaskForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        
+        const taskNameInput = editTaskForm.querySelector(".task-name-input");
+        const taskDescriptionInput = editTaskForm.querySelector(".task-description-input");
+        const dueDateInput = editTaskForm.querySelector(".due-date-input");
+        const prioritySelector = editTaskForm.querySelector(".priority-selector");
+
+        const isValidDate = this.validateDateInput(dueDateInput);
+        if (!isValidDate) return;
+
+        task.title = taskNameInput.value.trim();
+        task.description = taskDescriptionInput.value.trim();
+        task.dueDate = dueDateInput.value;
+        task.priority = prioritySelector.value;
+
+        this.editTaskData(task);
+        editTaskForm.remove();
+        taskRow.style.display = '';  // Show the task row again
+        ui.updateTaskRow(task, taskRow);
+      });
+
+      const cancelButton = editTaskForm.querySelector(".cancel-button");
+      cancelButton.addEventListener("click", () => {
+        editTaskForm.remove();
+        taskRow.style.display = '';  // Show the task row again
+      });
+    });
 
     const deleteButton = taskRow.querySelector(".delete-task-btn");
     deleteButton.addEventListener("click", () => {

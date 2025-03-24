@@ -310,6 +310,26 @@ function createTaskDetailsModal(task) {
   return modalOverlay;
 }
 
+function createEditTaskForm(task) {
+  const editTaskForm = createNewTaskForm();
+  
+  // Pre-populate the form
+  editTaskForm.querySelector('.task-name-input').value = task.title;
+  editTaskForm.querySelector('.task-description-input').value = task.description;
+  editTaskForm.querySelector('.due-date-input').value = task.dueDate;
+  editTaskForm.querySelector('.priority-selector').value = task.priority;
+  
+  return editTaskForm;
+}
+
+function updateTaskRow(task, taskRow) {
+  taskRow.querySelector('span:nth-child(2)').textContent = task.title;
+  taskRow.querySelector('span:nth-child(3)').textContent = `Due: ${task.dueDate}`;
+  const prioritySpan = taskRow.querySelector('span:nth-child(4)');
+  prioritySpan.textContent = task.priority;
+  prioritySpan.className = `${task.priority.toLowerCase()}-priority`;
+}
+
 export const ui = {
   renderProjects,
   createNewProjectForm,
@@ -323,5 +343,7 @@ export const ui = {
   renderTodayTasks,
   renderNext7DaysTasks,
   renderAllTasks,
-  createTaskDetailsModal
+  createTaskDetailsModal,
+  createEditTaskForm,
+  updateTaskRow
 };
