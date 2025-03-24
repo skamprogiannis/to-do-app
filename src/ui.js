@@ -107,6 +107,11 @@ function createDeleteProjectModal(projectName, projectIndex) {
 }
 
 function renderTask(task) {
+  const noTasksMessage = document.querySelector(".no-tasks-message");
+  if (noTasksMessage) {
+    noTasksMessage.remove();
+  }
+
   const checkbox = document.createElement("input");
   checkbox.setAttribute("type", "checkbox");
   checkbox.checked = task.completed;
@@ -183,6 +188,7 @@ function renderTasks(title, tasks, showAddButton = false) {
   if (tasks.length === 0) {
     const noTasksMessage = document.createElement("p");
     noTasksMessage.textContent = "No tasks to show.";
+    noTasksMessage.classList.add("no-tasks-message");
     tasksContainer.appendChild(noTasksMessage);
     return tasksSection;
   }
