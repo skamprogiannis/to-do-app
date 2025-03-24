@@ -7,7 +7,7 @@ class Task {
     this.dueDate = dueDate;
     this.priority = priority;
     this.completed = completed;
-    this.projectId = projectID;
+    this.projectID = projectID;
     this.id = id || uuidv4(); // If no ID is provided, generate a new one
   }
 
@@ -25,6 +25,7 @@ class Task {
   }
   toggleCompleted() {
     this.completed = !this.completed;
+    console.log("tasks.js: task completed is now:", this.completed);
   }
 }
 
