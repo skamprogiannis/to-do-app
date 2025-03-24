@@ -3,7 +3,7 @@ import Task from "./tasks.js";
 import Project from "./Project.js";
 import { ui } from "./ui.js";
 import { meta } from "./testProject.js";
-import { format, isBefore } from "date-fns";
+import { format, isBefore, addDays } from "date-fns";
 
 export const stateManager = {
   projects: [],
@@ -18,6 +18,8 @@ export const stateManager = {
     this.selectProject();
     this.selectImportantTasks();
     this.selectTodayTasks();
+    this.selectNextWeekTasks();
+    this.selectAllTasks();
   },
 
   loadProjectsFromLocalStorage() {
@@ -311,6 +313,55 @@ export const stateManager = {
     });
   },
 
+  selectTodayTasks() {
+    const todayButton = document.querySelector(".today-btn");
+    todayButton.addEventListener("click", () => {
+      const today = format(new Date(), "yyyy-MM-dd");
+      const tasksForToday = this.projects
+        .map((project) => project.tasks)
+        .flat()
+        .filter((task) => task.dueDate === today);
+
+      ui.renderTodayTasks(tasksForToday);
+    });
+  },
+
+  selectNextWeekTasks() {
+    const next7DaysButton = document.querySelector(".next-7-days-btn");
+    next7DaysButton.addEventListener("click", () => {
+      const next7Days = [];
+      for (let i = 0; i < 7; i++) {
+        next7Days.push(format(addDays(new Date(), i), "yyyy-MM-dd"));
+      }
+      const tasksForNext7Days = this.projects
+        .map((project) => project.tasks)
+        .flat()
+        .filter((task) => next7Days.includes(task.dueDate));
+
+      ui.renderNext7DaysTasks(tasksForNext7Days);
+    });
+  },
+
+  selectAllTasks() {  
+    const allTasksButton = document.querySelector(".all-tasks-btn");
+    allTasksButton.addEventListener("click", () => {
+      const allTasks = this.projects.map((project) => project.tasks).flat();
+      ui.renderAllTasks(allTasks);
+    });
+  },
+
+  selectImportantTasks() {
+    const importantButton = document.querySelector(".important-btn");
+    importantButton.addEventListener("click", () => {
+      const importantTasks = this.projects
+        .map((project) => project.tasks)
+        .flat()
+        .filter((task) => task.priority === "High");
+
+      ui.renderImportantTasks(importantTasks);
+    });
+  },
+
   validateDateInput(dueDateInput) {
     if (!dueDateInput.value) {
       dueDateInput.setCustomValidity("Please select a due date.");
@@ -329,31 +380,6 @@ export const stateManager = {
       return false;
     }
     return true;
-  },
-
-  selectTodayTasks() {
-    const todayButton = document.querySelector(".today-btn");
-    todayButton.addEventListener("click", () => {
-      const today = format(new Date(), "yyyy-MM-dd");
-      const tasksForToday = this.projects
-        .map((project) => project.tasks)
-        .flat()
-        .filter((task) => task.dueDate === today);
-
-      ui.renderTodayTasks(tasksForToday);
-    });
-  },
-
-  selectImportantTasks() {
-    const importantButton = document.querySelector(".important-btn");
-    importantButton.addEventListener("click", () => {
-      const importantTasks = this.projects
-        .map((project) => project.tasks)
-        .flat()
-        .filter((task) => task.priority === "High");
-
-      ui.renderImportantTasks(importantTasks);
-    });
   },
 
   shiaSurprise() {

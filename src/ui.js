@@ -183,6 +183,14 @@ function renderTodayTasks(tasks) {
   return renderTasks("Today", tasks);
 }
 
+function renderNext7DaysTasks (tasks) {
+  return renderTasks("Next 7 Days", tasks);
+}
+
+function renderAllTasks(tasks) {
+  return renderTasks("All Tasks", tasks);
+}
+
 function createNewTaskForm() {
   const taskNameInput = document.createElement("input");
   taskNameInput.setAttribute("type", "text");
@@ -247,5 +255,7 @@ export const ui = {
   createNewTaskForm,
   renderTask,
   renderImportantTasks,
-  renderTodayTasks
+  renderTodayTasks,
+  renderNext7DaysTasks,
+  renderAllTasks,
 };
