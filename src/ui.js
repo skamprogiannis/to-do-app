@@ -122,15 +122,6 @@ function renderTask(task) {
   detailsButton.textContent = "Details";
   detailsButton.classList.add("details-task-btn");
   detailsButton.setAttribute("aria-label", `View details for ${task.title}`);
-  
-  const detailsTextarea = document.createElement("textarea");
-  detailsTextarea.value = task.description;
-  detailsTextarea.classList.add("task-details-textarea");
-
-  const detailsContainer = document.createElement("div");
-  detailsContainer.classList.add("task-details-container");
-  detailsContainer.style.display = "none";
-  detailsContainer.appendChild(detailsTextarea);
 
   const editButton = document.createElement("button");
   editButton.innerHTML = '<img src="/images/edit_note_32dp.png">';
@@ -156,7 +147,6 @@ function renderTask(task) {
   taskDOM.appendChild(priority);
   taskDOM.appendChild(buttonContainer);
   taskDOM.appendChild(detailsButton);
-  taskDOM.appendChild(detailsContainer);
   
   const tasksContainer = document.querySelector(".tasks-container");
   tasksContainer.appendChild(taskDOM);
@@ -271,6 +261,47 @@ function createNewTaskForm() {
   return newTaskForm;
 }
 
+function createTaskDetailsModal(task) {
+  const modalOverlay = document.createElement("div");
+  modalOverlay.classList.add("modal-overlay");
+  
+  const modalContainer = document.createElement("div");
+  modalContainer.classList.add("details-modal");
+  modalContainer.dataset.taskId = task.id;
+
+  const modalHeader = document.createElement("div");
+  modalHeader.classList.add("modal-header");
+  const modalTitle = document.createElement("h3");
+  modalTitle.textContent = `Task Details - ${task.title}`;
+  modalHeader.appendChild(modalTitle);
+
+  const modalBody = document.createElement("div");
+  modalBody.classList.add("modal-body");
+  const detailsTextarea = document.createElement("textarea");
+  detailsTextarea.classList.add("details-textarea");
+  detailsTextarea.value = task.description;
+  modalBody.appendChild(detailsTextarea);
+
+  const modalFooter = document.createElement("div");
+  modalFooter.classList.add("modal-footer");
+  const cancelButton = document.createElement("button");
+  cancelButton.textContent = "Cancel";
+  cancelButton.classList.add("cancel-button");
+  modalFooter.appendChild(cancelButton);
+  
+  const saveButton = document.createElement("button");
+  saveButton.textContent = "Save";
+  saveButton.classList.add("save-button");
+  modalFooter.appendChild(saveButton);
+
+  modalContainer.appendChild(modalHeader);
+  modalContainer.appendChild(modalBody);
+  modalContainer.appendChild(modalFooter);
+  modalOverlay.appendChild(modalContainer);
+
+  return modalOverlay;
+}
+
 export const ui = {
   renderProjects,
   createNewProjectForm,
@@ -283,4 +314,5 @@ export const ui = {
   renderTodayTasks,
   renderNext7DaysTasks,
   renderAllTasks,
+  createTaskDetailsModal
 };

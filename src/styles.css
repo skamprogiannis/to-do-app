@@ -515,3 +515,56 @@ form .cancel-button:hover {
   display: flex;
   justify-content: space-between;
 }
+
+.details-modal {
+  position: absolute;
+  left: 15%;
+  top: 35%;
+  width: 30%;
+  background-color: var(--modal-background-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: slideUp 0.5s ease-out;
+}
+
+/* Style for details modal header */
+.details-modal .modal-header h3 {
+  color: #2c88d9;
+  font-weight: 500;
+}
+
+/* Styling for the details textarea */
+.details-textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  background-color: var(--textarea-bg-color, #fff);
+  color: var(--text-color);
+}
+
+.details-textarea:focus {
+  border-color: #2c88d9;
+  outline: none;
+}
+
+/* Save button styling */
+.save-button {
+  background-color: #2c88d9;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.save-button:hover {
+  background-color: #1a75c7;
+  animation: buttonBounce 0.4s ease;
+}

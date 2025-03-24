@@ -363,33 +363,6 @@ export const stateManager = {
     this.attachTaskRowEventListeners(newTask);
   },
 
-  attachTaskRowEventListeners(task) {
-    const taskRow = document.querySelector(`[data-id="${task.id}"]`);
-
-    const checkbox = taskRow.querySelector(".task-checkbox");
-    checkbox.addEventListener("change", () => {
-      console.log("Checkbox clicked for task ID:", task.id);
-      console.log("Before toggle, task.completed:", task.completed);
-      task.toggleCompleted();
-      console.log("After toggle, task.completed:", task.completed);
-      this.editTaskData(task);
-    });
-    const detailsButton = taskRow.querySelector(".details-task-btn");
-    const detailsContainer = taskRow.querySelector(".task-details-container");
-    const detailsTextarea = taskRow.querySelector(".task-details-textarea");
-    detailsButton.addEventListener("click", () => {
-      if (detailsContainer.style.display === "none") {
-        detailsContainer.style.display = "block";
-        detailsTextarea.focus();
-      } else {
-        detailsContainer.style.display = "none";
-      }
-    });
-    detailsTextarea.addEventListener("blur", () => {
-      task.description = detailsTextarea.value;
-    });
-  },
-
   attachTaskFormEventListeners(createTaskForm) {
     const confirmButton = createTaskForm.querySelector(".confirm-button");
     const cancelButton = createTaskForm.querySelector(".cancel-button");
@@ -410,6 +383,47 @@ export const stateManager = {
 
     cancelButton.addEventListener("click", () => {
       createTaskForm.remove();
+    });
+  },
+
+  attachTaskRowEventListeners(task) {
+    const taskRow = document.querySelector(`[data-id="${task.id}"]`);
+  
+    const checkbox = taskRow.querySelector(".task-checkbox");
+    checkbox.addEventListener("change", () => {
+      task.toggleCompleted();
+      this.editTaskData(task);
+    });
+  
+    const detailsButton = taskRow.querySelector(".details-task-btn");
+    detailsButton.addEventListener("click", () => {
+      const detailsModal = ui.createTaskDetailsModal(task);
+      document.body.appendChild(detailsModal);
+      
+      this.attachTaskDetailsModalEventListeners(detailsModal, task);
+    });
+  },
+  
+  attachTaskDetailsModalEventListeners(detailsModal, task) {
+    // Close modal when clicking on overlay
+    detailsModal.addEventListener("click", (event) => {
+      if (event.target === detailsModal) {
+        detailsModal.remove();
+      }
+    });
+  
+    const cancelButton = detailsModal.querySelector(".cancel-button");
+    const saveButton = detailsModal.querySelector(".save-button");
+    const detailsTextarea = detailsModal.querySelector(".details-textarea");
+  
+    cancelButton.addEventListener("click", () => {
+      detailsModal.remove();
+    });
+  
+    saveButton.addEventListener("click", () => {
+      task.description = detailsTextarea.value;
+      this.editTaskData(task);
+      detailsModal.remove();
     });
   },
 
