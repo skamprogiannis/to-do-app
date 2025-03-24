@@ -35,7 +35,8 @@ export const stateManager = {
                     task.title,
                     task.description,
                     task.dueDate,
-                    task.priority
+                    task.priority,
+                    task.completed
                   )
               )
             )
@@ -62,6 +63,15 @@ export const stateManager = {
 
   saveTaskData(newTask, projectIndex) {
     this.projects[projectIndex].tasks.push(newTask);
+    localStorage.setItem("projects", JSON.stringify(this.projects));
+  },
+
+  editTaskData(task, projectIndex) {
+    const project = this.projects[projectIndex];
+    const taskIndex = project.tasks.findIndex(
+      (existingTask) => existingTask.title === task.title
+    );
+    project.tasks[taskIndex] = task;
     localStorage.setItem("projects", JSON.stringify(this.projects));
   },
 
@@ -289,6 +299,21 @@ export const stateManager = {
     );
     this.saveTaskData(newTask, projectIndex);
     ui.renderTask(newTask);
+    this.attachTaskRowEventListeners(newTask);
+  },
+
+  attachTaskRowEventListeners(task, projectIndex) {
+    const taskRow = document.querySelector(`[data-title="${task.title}"]`);
+    //this is not finished
+    const editTaskButton = taskRow.querySelector(".edit-task-btn");
+    const deleteTaskButton = taskRow.querySelector(".delete-task-btn");
+    //this is not finished
+    const checkbox = taskRow.querySelector(".task-checkbox");
+
+    checkbox.addEventListener("change", () => {
+      task.toggleCompleted();
+      editTaskData(task, projectIndex);
+    });
   },
 
   attachTaskFormEventListeners(createTaskForm) {
@@ -343,7 +368,7 @@ export const stateManager = {
     });
   },
 
-  selectAllTasks() {  
+  selectAllTasks() {
     const allTasksButton = document.querySelector(".all-tasks-btn");
     allTasksButton.addEventListener("click", () => {
       const allTasks = this.projects.map((project) => project.tasks).flat();

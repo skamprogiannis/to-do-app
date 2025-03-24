@@ -109,6 +109,8 @@ function createDeleteProjectModal(projectName, projectIndex) {
 function renderTask(task) {
   const checkbox = document.createElement("input");
   checkbox.setAttribute("type", "checkbox");
+  checkbox.checked = task.completed;
+  checkbox.classList.add("task-checkbox");
   const title = document.createElement("span");
   title.textContent = task.title;
   const dueDate = document.createElement("span");
