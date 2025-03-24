@@ -1,5 +1,5 @@
 import "./styles.css";
-import Task from "./tasks.js";
+import Task from "./Task.js";
 import Project from "./Project.js";
 import { ui } from "./ui.js";
 import { addMetaTestProject } from "./testProject.js";

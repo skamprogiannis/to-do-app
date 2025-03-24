@@ -1,5 +1,5 @@
 import Project from "./Project.js";
-import Task from "./tasks.js";
+import Task from "./Task.js";
 import { ui } from "./ui.js";
 import { stateManager } from "./index.js";
 
