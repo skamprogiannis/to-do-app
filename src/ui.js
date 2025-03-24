@@ -51,11 +51,13 @@ function createNewProjectForm() {
   const cancelButton = document.createElement("button");
   cancelButton.textContent = "Cancel";
   cancelButton.classList.add("cancel-button");
+  cancelButton.setAttribute("type", "button");
   buttonContainer.appendChild(cancelButton);
 
   const confirmButton = document.createElement("button");
   confirmButton.textContent = "Confirm";
   confirmButton.classList.add("confirm-button");
+  confirmButton.setAttribute("type", "submit");
   buttonContainer.appendChild(confirmButton);
 
   return newProjectForm;

@@ -139,9 +139,11 @@ export const stateManager = {
       const projectNameInput = newProjectForm.querySelector("input");
       projectNameInput.focus();
 
-      newProjectForm.addEventListener("submit", (event) =>
-        this.handleNewProjectFormSubmit(event)
-      );
+      newProjectForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        this.handleNewProjectFormSubmit(event);
+      });
+
       this.attachProjectFormButtonEventListeners(newProjectForm);
     });
   },
@@ -149,6 +151,12 @@ export const stateManager = {
   handleNewProjectFormSubmit(event) {
     event.preventDefault();
     const newProjectForm = event.target;
+    
+    if (!newProjectForm.checkValidity()) {
+      newProjectForm.reportValidity();
+      return;
+    }
+
     const projectNameInput = newProjectForm.querySelector("input");
     const newProject = new Project(projectNameInput.value.trim());
     this.saveProjectData(newProject);
@@ -163,11 +171,7 @@ export const stateManager = {
     const cancelButton = projectForm.querySelector(".cancel-button");
 
     confirmButton.addEventListener("click", () => {
-      if (projectForm.checkValidity()) {
-        projectForm.requestSubmit();
-      } else {
-        projectForm.reportValidity();
-      }
+      projectForm.requestSubmit();
     });
 
     cancelButton.addEventListener("click", () => {
