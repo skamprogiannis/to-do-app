@@ -78,6 +78,9 @@ h6 {
   --delete-modal-header-color: #d32f2f;
   --details-modal-save-button-color: rgb(34, 150, 45);
   --details-modal-save-hover-color: rgb(56, 176, 56);
+  --low-priority-bg-color: #d3d3d3;
+  --medium-priority-bg-color: #ffcc00;
+  --high-priority-bg-color: #ff4d4d;
 }
 
 @keyframes fadeIn {
@@ -568,4 +571,25 @@ form .cancel-button:hover {
 .save-button:hover {
   background-color: var(--details-modal-save-hover-color);
   animation: buttonBounce 0.4s ease;
+}
+
+.low-priority {
+  background-color: var(--low-priority-bg-color);
+  color: #333;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.medium-priority {
+  background-color: var(--medium-priority-bg-color);
+  color: #333;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.high-priority {
+  background-color: var(--high-priority-bg-color);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 3px;
 }

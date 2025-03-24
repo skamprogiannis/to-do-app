@@ -115,8 +115,10 @@ function renderTask(task) {
   title.textContent = task.title;
   const dueDate = document.createElement("span");
   dueDate.textContent = task.dueDate;
+
   const priority = document.createElement("span");
   priority.textContent = task.priority;
+  priority.classList.add(`${priority.textContent.toLowerCase()}-priority`);
 
   const detailsButton = document.createElement("button");
   detailsButton.textContent = "Details";
