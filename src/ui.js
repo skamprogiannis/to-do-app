@@ -147,8 +147,8 @@ function renderTask(task) {
   taskDOM.appendChild(title);
   taskDOM.appendChild(dueDate);
   taskDOM.appendChild(priority);
-  taskDOM.appendChild(buttonContainer);
   taskDOM.appendChild(detailsButton);
+  taskDOM.appendChild(buttonContainer);
   
   const tasksContainer = document.querySelector(".tasks-container");
   tasksContainer.appendChild(taskDOM);
