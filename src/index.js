@@ -358,6 +358,7 @@ export const stateManager = {
 
     this.saveNewTaskData(newTask);
     ui.renderTask(newTask);
+    newTaskForm.remove();
     this.attachTaskRowEventListeners(newTask);
   },
 

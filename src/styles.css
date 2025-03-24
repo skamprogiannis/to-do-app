@@ -668,3 +668,38 @@ form .cancel-button:hover {
 .tasks-section h3 {
   cursor: default;
 }
+
+.tasks-section form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  max-width: 500px;
+}
+
+.tasks-section form input,
+.tasks-section form select {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.tasks-section form input:focus,
+.tasks-section form select:focus {
+  border-color: var(--input-border);
+  box-shadow: 0 0 6px var(--input-shadow);
+  outline: none;
+}
+
+.tasks-section form select {
+  background-color: white;
+  cursor: pointer;
+}
+
+.tasks-section form .button-container {
+  margin-top: 20px;
+}
