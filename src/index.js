@@ -2,7 +2,7 @@ import "./styles.css";
 import Task from "./Task.js";
 import Project from "./Project.js";
 import { ui } from "./ui.js";
-import { addMetaTestProject } from "./testProject.js";
+import { demoProject } from "./testProject.js";
 import { format, isBefore, addDays } from "date-fns";
 
 export const stateManager = {
@@ -22,6 +22,7 @@ export const stateManager = {
     this.selectNext7DaysTasks();
     this.selectAllTasks();
     document.querySelector('.today-btn').click();
+    demoProject.createDemoProjectModal();
   },
 
   loadProjectsFromLocalStorage() {
@@ -609,4 +610,3 @@ export const stateManager = {
 };
 
 stateManager.initialize();
-addMetaTestProject();
