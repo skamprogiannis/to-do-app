@@ -373,12 +373,15 @@ main {
 
 .add-project {
   flex-shrink: 0;
-  background-color: transparent;
+  align-self: center;
+  background-color: var(--add-project-button-color);
   border: none;
-  color: var(--add-project-button-color);
+  color: white;
   font-weight: 600;
   margin: 10px 0px;
-  padding: 8px 0;
+  border-radius: 15px;
+  padding: 8px 16px;
+  width: 70%;
   cursor: pointer;
   transition: color 0.2s ease;
   text-align: center;
@@ -528,11 +531,13 @@ form .cancel-button:hover {
   color: var(--header-text-color);
 }
 
+
 .add-task-button {
   align-self: flex-start;
   background: var(--add-project-button-color);
   color: white;
   border: none;
+  font-weight: 600;
   padding: 8px 16px;
   border-radius: 15px;
   cursor: pointer;
