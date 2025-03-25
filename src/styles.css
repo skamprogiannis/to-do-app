@@ -82,6 +82,7 @@ h6 {
   --low-priority-bg-color: #d3d3d3;
   --medium-priority-bg-color: #ffcc00;
   --high-priority-bg-color: #ff4d4d;
+  --sidebar-width: 250px;
 }
 
 @keyframes fadeIn {
@@ -93,34 +94,25 @@ h6 {
   }
 }
 
-@keyframes buttonBounce {
-  0%, 100% {
-    transform: translateY(0);
+@keyframes sidebarHide {
+  from {
+    transform: translateX(0);
+    width: var(--sidebar-width);
   }
-  50% {
-    transform: translateY(-3px);
+  to {
+    transform: translateX(-100%);
+    width: 0;
   }
 }
 
-@keyframes slideDown {
+@keyframes sidebarShow {
   from {
-    opacity: 0;
-    transform: translateY(-10px);
+    transform: translateX(-100%);
+    width: 0;
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
+    width: var(--sidebar-width);
   }
 }
 
@@ -209,17 +201,18 @@ main {
 }
 
 .sidebar {
-  flex: 0.15;
-  min-width: 150px;
+  width: var(--sidebar-width);
   background-color: var(--sidebar-bg-color);
   overflow-y: auto;
   cursor: default;
 }
 
 .hidden {
-  width: 0;
-  height: 0;
-  overflow: hidden;
+  animation: sidebarHide 0.3s ease-in-out forwards;
+}
+
+.sidebar:not(.hidden) {
+  animation: sidebarShow 0.3s ease-in-out forwards;
 }
 
 .sidebar h2 {
@@ -436,7 +429,6 @@ form .confirm-button {
 form .confirm-button:hover {
   background-color: var(--confirm-btn-hover-bg-color);
   box-shadow: 0 6px 12px var(--btn-shadow-hover);
-  animation: buttonBounce 0.4s ease;
 }
 
 form .cancel-button {
@@ -446,7 +438,6 @@ form .cancel-button {
 form .cancel-button:hover {
   background-color: var(--cancel-btn-hover-bg-color);
   box-shadow: 0 6px 12px var(--btn-shadow-hover);
-  animation: buttonBounce 0.4s ease;
 }
 
 .modal-overlay {
@@ -465,7 +456,6 @@ form .cancel-button:hover {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  animation: slideUp 0.5s ease-out; 
 }
 
 .modal-header {
@@ -501,7 +491,6 @@ form .cancel-button:hover {
 
 .delete-confirm-button:hover {
   background-color: var(--cancel-btn-hover-bg-color);
-  animation: buttonBounce 0.4s ease;
 }
 
 .cancel-button {
@@ -513,7 +502,6 @@ form .cancel-button:hover {
 
 .cancel-button:hover {
   background-color: #e5e5e5;
-  animation: buttonBounce 0.4s ease;
 }
 
 .tasks-section {
@@ -523,6 +511,7 @@ form .cancel-button:hover {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  transition: margin-left 0.3s ease-in-out;
 }
 
 .tasks-section h3 {
@@ -636,7 +625,6 @@ form .cancel-button:hover {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  animation: slideUp 0.5s ease-out;
 }
 
 .details-modal .modal-header h3 {
@@ -675,7 +663,6 @@ form .cancel-button:hover {
 
 .save-button:hover {
   background-color: var(--details-modal-save-hover-color);
-  animation: buttonBounce 0.4s ease;
 }
 
 .low-priority {
@@ -805,7 +792,6 @@ form .cancel-button:hover {
 .test-project-modal .modal-footer .confirm-button:hover {
   background-color: var(--confirm-btn-hover-bg-color);
   box-shadow: 0 6px 12px var(--btn-shadow-hover);
-  animation: buttonBounce 0.4s ease;
 }
 
 .test-project-modal .modal-footer .cancel-button {
@@ -815,5 +801,4 @@ form .cancel-button:hover {
 .test-project-modal .modal-footer .cancel-button:hover {
   background-color: var(--cancel-btn-hover-bg-color);
   box-shadow: 0 6px 12px var(--btn-shadow-hover);
-  animation: buttonBounce 0.4s ease;
 }
