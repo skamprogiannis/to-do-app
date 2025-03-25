@@ -102,6 +102,7 @@ function addMetaDemoProject() {
     "2025-03-30",
     "Low"
   );
+  sidebarToggleTask.toggleCompleted();
   const refactorRenderingTask = new Task(
     meta.id,
     "Refactor Project Rendering Functions",
