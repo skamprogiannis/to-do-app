@@ -388,7 +388,7 @@ main {
 }
 
 .add-project:hover {
-  color: var(--add-project-button-hover);
+  background-color: var(--add-project-button-hover);
 }
 
 form {
