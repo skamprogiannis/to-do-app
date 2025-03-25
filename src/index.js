@@ -251,63 +251,39 @@ export const stateManager = {
   deleteProject() {
     const projectList = document.querySelector(".project-list");
     projectList.addEventListener("click", (event) => {
-      if (
-        event.target.classList.contains("delete-project-btn") ||
-        event.target.parentElement.classList.contains("delete-project-btn")
-      ) {
-        const deleteButton = event.target.classList.contains(
-          "delete-project-btn"
-        )
-          ? event.target
-          : event.target.parentElement;
-
-        const projectItem = deleteButton.closest("li");
-        const projectID = projectItem.dataset.id;
-        const linkedProject = this.projects.find(
-          (project) => project.id === projectID
-        );
-        const projectName = linkedProject.name;
-
-        const deleteModal = ui.createDeleteProjectModal(projectName, projectID);
+      if (event.target.closest(".delete-project-btn")) {
+        const projectLi = event.target.closest("li");
+        const projectID = projectLi.dataset.id;
+        const projectIndex = this.projects.findIndex((p) => p.id === projectID);
+        const projectName = this.projects[projectIndex].name;
+        
+        const deleteModal = ui.createDeleteProjectModal(projectName, projectIndex);
         document.body.appendChild(deleteModal);
-
-        this.attachDeleteProjectModalEventListeners(deleteModal, projectID);
+        
+        const confirmButton = deleteModal.querySelector(".delete-confirm-button");
+        const cancelButton = deleteModal.querySelector(".cancel-button");
+        
+        confirmButton.addEventListener("click", () => {
+          this.removeProjectData(projectID);
+          
+          if (this.currentView && this.currentView.closest("li") === projectLi) {
+            document.querySelector('.today-btn').click();
+          }      
+          ui.renderProjects(this.projects);
+          deleteModal.remove();
+        });
+        
+        cancelButton.addEventListener("click", () => {
+          deleteModal.remove();
+        });
+        
+        deleteModal.addEventListener("click", (event) => {
+          if (event.target === deleteModal) {
+            deleteModal.remove();
+          }
+        });
       }
     });
-  },
-
-  attachDeleteProjectModalEventListeners(deleteModal, projectID) {
-    // Close modal when clicking on overlay
-    deleteModal.addEventListener("click", (event) => {
-      if (event.target === deleteModal) {
-        deleteModal.remove();
-      }
-    });
-
-    const cancelButton = deleteModal.querySelector(".cancel-button");
-    const confirmDeleteButton = deleteModal.querySelector(
-      ".delete-confirm-button"
-    );
-
-    cancelButton.addEventListener("click", () => {
-      deleteModal.remove();
-    });
-
-    confirmDeleteButton.addEventListener("click", () => {
-      this.handleDeleteProjectConfirmation(projectID);
-      deleteModal.remove();
-    });
-  },
-
-  handleDeleteProjectConfirmation(projectID) {
-    const deletedProjectButton = document.querySelector(`li[data-id="${projectID}"] .project-name-btn`);
-    this.removeProjectData(projectID);
-    ui.renderProjects(this.projects);
-    
-    // Check if we were viewing the deleted project
-    if (deletedProjectButton && deletedProjectButton === this.currentView) {
-      document.querySelector('.today-btn').click();
-    }
   },
 
   selectProject() {
