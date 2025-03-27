@@ -27,43 +27,29 @@ export const stateManager = {
 
   loadProjectsFromLocalStorage() {
     const storedProjectsData = localStorage.getItem("projects");
-    console.log(
-      "loadProjectsFromLocalStorage: storedProjectsData:",
-      storedProjectsData
-    );
-    if (storedProjectsData) {
-      this.projects = JSON.parse(storedProjectsData).map(
-        (projectData) =>
-          new Project(
-            projectData.name,
-            projectData.tasks.map(
-              (task) =>
-                new Task(
-                  task.projectID,
-                  task.title,
-                  task.description,
-                  task.dueDate,
-                  task.priority,
-                  task.completed,
-                  task.id
-                )
-            ),
-            projectData.id
-          )
-      );
-      console.log(
-        "loadProjectsFromLocalStorage: parsed projects:",
-        this.projects
-      );
-      if (this.projects.length > 0 && this.projects[0].tasks.length > 0) {
-        console.log(
-          "loadProjectsFromLocalStorage: first task completed:",
-          this.projects[0].tasks[0].completed
-        );
-      }
-    } else {
-      this.projects = [];
+    if (!storedProjectsData) {
+      console.error("Failed to load project data from localStorage");
+      return [];
     }
+    this.projects = JSON.parse(storedProjectsData).map(
+      (projectData) =>
+        new Project(
+          projectData.name,
+          projectData.tasks.map(
+            (task) =>
+              new Task(
+                task.projectID,
+                task.title,
+                task.description,
+                task.dueDate,
+                task.priority,
+                task.completed,
+                task.id
+              )
+          ),
+          projectData.id
+        )
+    );
     ui.renderProjects(this.projects);
   },
 
@@ -87,13 +73,11 @@ export const stateManager = {
   },
 
   saveNewTaskData(newTask) {
-    console.log("Saving task:", newTask);
-    console.log("Projects:", this.projects);
     const project = this.projects.find(
       (project) => project.id === newTask.projectID
     );
     if (!project) {
-      console.log("Project not found when saving task.");
+      console.error("Project not found when saving task.");
       return;
     }
 
@@ -102,7 +86,6 @@ export const stateManager = {
   },
 
   editTaskData(updatedTask) {
-    console.log("editTaskData: updatedTask before:", updatedTask);
     const project = this.projects.find(
       (project) => project.id === updatedTask.projectID
     );
