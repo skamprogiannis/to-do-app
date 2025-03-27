@@ -15,13 +15,13 @@ function renderProjects(projects) {
     buttonContainer.classList.add("project-actions-container");
 
     const editButton = document.createElement("button");
-    editButton.innerHTML = '<img src="/images/edit_note_32dp.png">';
+    editButton.innerHTML = '<img src="./images/edit_note_32dp.png">';
     editButton.classList.add("edit-project-btn");
     editButton.setAttribute("aria-label", `Edit ${project.name}`);
     buttonContainer.appendChild(editButton);
 
     const deleteButton = document.createElement("button");
-    deleteButton.innerHTML = '<img src="/images/delete_32dp.png">';
+    deleteButton.innerHTML = '<img src="./images/delete_32dp.png">';
     deleteButton.classList.add("delete-project-btn");
     deleteButton.setAttribute("aria-label", `Delete ${project.name}`);
     buttonContainer.appendChild(deleteButton);
@@ -135,12 +135,12 @@ function renderTask(task) {
   detailsButton.setAttribute("aria-label", `View details for ${task.title}`);
 
   const editButton = document.createElement("button");
-  editButton.innerHTML = '<img src="/images/edit_note_32dp.png">';
+  editButton.innerHTML = '<img src="./images/edit_note_32dp.png">';
   editButton.classList.add("edit-task-btn");
   editButton.setAttribute("aria-label", `Edit ${task.title}`);
 
   const deleteButton = document.createElement("button");
-  deleteButton.innerHTML = '<img src="/images/delete_32dp.png">';
+  deleteButton.innerHTML = '<img src="./images/delete_32dp.png">';
   deleteButton.classList.add("delete-task-btn");
   deleteButton.setAttribute("aria-label", `Delete ${task.title}`);
 
