@@ -10,11 +10,15 @@ function createDemoProjectModal() {
 
     const modalContainer = document.createElement("div");
     modalContainer.classList.add("test-project-modal");
+    modalContainer.setAttribute("role", "dialog");
+    modalContainer.setAttribute("aria-modal", "true");
 
     const modalHeader = document.createElement("div");
     modalHeader.classList.add("modal-header");
     const modalTitle = document.createElement("h3");
     modalTitle.textContent = "Welcome to Do It!";
+    modalTitle.id = "welcome-title";
+    modalContainer.setAttribute("aria-labelledby", modalTitle.id);
     modalHeader.appendChild(modalTitle);
 
     const modalBody = document.createElement("div");
@@ -43,20 +47,29 @@ function createDemoProjectModal() {
     modalOverlay.appendChild(modalContainer);
 
     document.body.appendChild(modalOverlay);
+    noButton.focus();
+
+    const closeModal = () => modalOverlay.remove();
+
+    modalOverlay.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    });
 
     // Simple event listeners without Promise
     yesButton.addEventListener("click", () => {
-      modalOverlay.remove();
+      closeModal();
       addMetaDemoProject();
     });
 
     noButton.addEventListener("click", () => {
-      modalOverlay.remove();
+      closeModal();
     });
 
     modalOverlay.addEventListener("click", (event) => {
       if (event.target === modalOverlay) {
-        modalOverlay.remove();
+        closeModal();
       }
     });
   }

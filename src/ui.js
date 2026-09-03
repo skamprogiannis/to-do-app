@@ -15,13 +15,13 @@ function renderProjects(projects) {
     buttonContainer.classList.add("project-actions-container");
 
     const editButton = document.createElement("button");
-    editButton.innerHTML = '<img src="./images/edit_note_32dp.png">';
+    editButton.innerHTML = '<img src="./images/edit_note_32dp.png" alt="">';
     editButton.classList.add("edit-project-btn");
     editButton.setAttribute("aria-label", `Edit ${project.name}`);
     buttonContainer.appendChild(editButton);
 
     const deleteButton = document.createElement("button");
-    deleteButton.innerHTML = '<img src="./images/delete_32dp.png">';
+    deleteButton.innerHTML = '<img src="./images/delete_32dp.png" alt="">';
     deleteButton.classList.add("delete-project-btn");
     deleteButton.setAttribute("aria-label", `Delete ${project.name}`);
     buttonContainer.appendChild(deleteButton);
@@ -76,17 +76,29 @@ function createDeleteProjectModal(projectName, projectIndex) {
   const modalContainer = document.createElement("div");
   modalContainer.classList.add("delete-modal");
   modalContainer.dataset.projectIndex = projectIndex;
+  modalContainer.setAttribute("role", "alertdialog");
+  modalContainer.setAttribute("aria-modal", "true");
 
   const modalHeader = document.createElement("div");
   modalHeader.classList.add("modal-header");
   const modalTitle = document.createElement("h3");
   modalTitle.textContent = `Delete "${projectName}"`;
+  modalTitle.id = `delete-project-title-${projectIndex}`;
+  modalContainer.setAttribute("aria-labelledby", modalTitle.id);
   modalHeader.appendChild(modalTitle);
 
   const modalBody = document.createElement("div");
   modalBody.classList.add("modal-body");
   const warningMessage = document.createElement("p");
-  warningMessage.innerHTML = `Are you sure you want to delete <strong>${projectName}</strong>?<br>All tasks in this project will be permanently removed.`;
+  const projectNameStrong = document.createElement("strong");
+  projectNameStrong.textContent = projectName;
+  warningMessage.append(
+    "Are you sure you want to delete ",
+    projectNameStrong,
+    "?",
+    document.createElement("br"),
+    "All tasks in this project will be permanently removed."
+  );
   modalBody.appendChild(warningMessage);
 
   const modalFooter = document.createElement("div");
@@ -118,16 +130,22 @@ function renderTask(task) {
   checkbox.setAttribute("type", "checkbox");
   checkbox.checked = task.completed;
   checkbox.classList.add("task-checkbox");
+  checkbox.setAttribute("aria-label", `Mark ${task.title} complete`);
 
   const title = document.createElement("span");
   title.textContent = task.title;
+  title.classList.add("task-title");
 
   const dueDate = document.createElement("span");
   dueDate.textContent = `Due: ${task.dueDate}`;
+  dueDate.classList.add("task-due-date");
 
   const priority = document.createElement("span");
   priority.textContent = task.priority;
-  priority.classList.add(`${priority.textContent.toLowerCase()}-priority`);
+  priority.classList.add(
+    "task-priority",
+    `${priority.textContent.toLowerCase()}-priority`
+  );
 
   const detailsButton = document.createElement("button");
   detailsButton.textContent = "Details";
@@ -135,12 +153,12 @@ function renderTask(task) {
   detailsButton.setAttribute("aria-label", `View details for ${task.title}`);
 
   const editButton = document.createElement("button");
-  editButton.innerHTML = '<img src="./images/edit_note_32dp.png">';
+  editButton.innerHTML = '<img src="./images/edit_note_32dp.png" alt="">';
   editButton.classList.add("edit-task-btn");
   editButton.setAttribute("aria-label", `Edit ${task.title}`);
 
   const deleteButton = document.createElement("button");
-  deleteButton.innerHTML = '<img src="./images/delete_32dp.png">';
+  deleteButton.innerHTML = '<img src="./images/delete_32dp.png" alt="">';
   deleteButton.classList.add("delete-task-btn");
   deleteButton.setAttribute("aria-label", `Delete ${task.title}`);
 
@@ -243,7 +261,7 @@ function createNewTaskForm() {
   dueDateInput.classList.add("due-date-input");
 
   const prioritySelector = document.createElement("select");
-  dueDateInput.setAttribute("aria-label", "Priority");
+  prioritySelector.setAttribute("aria-label", "Priority");
   prioritySelector.classList.add("priority-selector");
   const low = document.createElement("option");
   low.innerText = "Low";
@@ -284,17 +302,22 @@ function createTaskDetailsModal(task) {
   const modalContainer = document.createElement("div");
   modalContainer.classList.add("details-modal");
   modalContainer.dataset.taskId = task.id;
+  modalContainer.setAttribute("role", "dialog");
+  modalContainer.setAttribute("aria-modal", "true");
 
   const modalHeader = document.createElement("div");
   modalHeader.classList.add("modal-header");
   const modalTitle = document.createElement("h3");
   modalTitle.textContent = `Task Details - ${task.title}`;
+  modalTitle.id = `task-details-title-${task.id}`;
+  modalContainer.setAttribute("aria-labelledby", modalTitle.id);
   modalHeader.appendChild(modalTitle);
 
   const modalBody = document.createElement("div");
   modalBody.classList.add("modal-body");
   const detailsTextarea = document.createElement("textarea");
   detailsTextarea.classList.add("details-textarea");
+  detailsTextarea.setAttribute("aria-label", "Task description");
   detailsTextarea.value = task.description;
   modalBody.appendChild(detailsTextarea);
 
@@ -331,11 +354,23 @@ function createEditTaskForm(task) {
 }
 
 function updateTaskRow(task, taskRow) {
-  taskRow.querySelector('span:nth-child(2)').textContent = task.title;
-  taskRow.querySelector('span:nth-child(3)').textContent = `Due: ${task.dueDate}`;
-  const prioritySpan = taskRow.querySelector('span:nth-child(4)');
+  taskRow.querySelector(".task-title").textContent = task.title;
+  taskRow.querySelector(".task-due-date").textContent = `Due: ${task.dueDate}`;
+  const prioritySpan = taskRow.querySelector(".task-priority");
   prioritySpan.textContent = task.priority;
-  prioritySpan.className = `${task.priority.toLowerCase()}-priority`;
+  prioritySpan.className = `task-priority ${task.priority.toLowerCase()}-priority`;
+  taskRow
+    .querySelector(".task-checkbox")
+    .setAttribute("aria-label", `Mark ${task.title} complete`);
+  taskRow
+    .querySelector(".details-task-btn")
+    .setAttribute("aria-label", `View details for ${task.title}`);
+  taskRow
+    .querySelector(".edit-task-btn")
+    .setAttribute("aria-label", `Edit ${task.title}`);
+  taskRow
+    .querySelector(".delete-task-btn")
+    .setAttribute("aria-label", `Delete ${task.title}`);
 }
 
 export const ui = {

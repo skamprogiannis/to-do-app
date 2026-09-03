@@ -28,8 +28,9 @@ export const stateManager = {
   loadProjectsFromLocalStorage() {
     const storedProjectsData = localStorage.getItem("projects");
     if (!storedProjectsData) {
-      console.error("Failed to load project data from localStorage");
-      return [];
+      this.projects = [];
+      ui.renderProjects(this.projects);
+      return;
     }
     this.projects = JSON.parse(storedProjectsData).map(
       (projectData) =>
@@ -107,9 +108,32 @@ export const stateManager = {
     const toggleSidebarButton = document.querySelector("#toggle-sidebar");
     const sidebar = document.querySelector(".sidebar");
 
+    const updateSidebarState = (expanded) => {
+      toggleSidebarButton.setAttribute("aria-expanded", String(expanded));
+      sidebar.inert = !expanded;
+    };
+
+    if (window.matchMedia("(max-width: 700px)").matches) {
+      sidebar.classList.add("hidden");
+      updateSidebarState(false);
+    }
+
     toggleSidebarButton.addEventListener("click", () => {
       sidebar.classList.toggle("hidden");
+      updateSidebarState(!sidebar.classList.contains("hidden"));
     });
+  },
+
+  collapseSidebarOnMobile() {
+    if (!window.matchMedia("(max-width: 700px)").matches) {
+      return;
+    }
+
+    const sidebar = document.querySelector(".sidebar");
+    const toggleSidebarButton = document.querySelector("#toggle-sidebar");
+    sidebar.classList.add("hidden");
+    sidebar.inert = true;
+    toggleSidebarButton.setAttribute("aria-expanded", "false");
   },
 
   addProjectClick() {
@@ -234,7 +258,8 @@ export const stateManager = {
   deleteProject() {
     const projectList = document.querySelector(".project-list");
     projectList.addEventListener("click", (event) => {
-      if (event.target.closest(".delete-project-btn")) {
+      const deleteTrigger = event.target.closest(".delete-project-btn");
+      if (deleteTrigger) {
         const projectLi = event.target.closest("li");
         const projectID = projectLi.dataset.id;
         const projectIndex = this.projects.findIndex((p) => p.id === projectID);
@@ -245,6 +270,14 @@ export const stateManager = {
         
         const confirmButton = deleteModal.querySelector(".delete-confirm-button");
         const cancelButton = deleteModal.querySelector(".cancel-button");
+        const closeModal = () => {
+          deleteModal.remove();
+          if (deleteTrigger.isConnected) {
+            deleteTrigger.focus();
+          }
+        };
+
+        cancelButton.focus();
         
         confirmButton.addEventListener("click", () => {
           this.removeProjectData(projectID);
@@ -253,16 +286,20 @@ export const stateManager = {
             document.querySelector('.today-btn').click();
           }      
           ui.renderProjects(this.projects);
-          deleteModal.remove();
+          closeModal();
         });
         
-        cancelButton.addEventListener("click", () => {
-          deleteModal.remove();
+        cancelButton.addEventListener("click", closeModal);
+
+        deleteModal.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            closeModal();
+          }
         });
         
         deleteModal.addEventListener("click", (event) => {
           if (event.target === deleteModal) {
-            deleteModal.remove();
+            closeModal();
           }
         });
       }
@@ -283,6 +320,7 @@ export const stateManager = {
         const project = this.projects.find((p) => p.id === projectID);
 
         ui.renderTasksByProject(project);
+        this.collapseSidebarOnMobile();
         this.attachAddTaskEventListener(project);
         project.tasks.forEach((task) => {
           this.attachTaskRowEventListeners(task);
@@ -377,7 +415,8 @@ export const stateManager = {
     detailsButton.addEventListener("click", () => {
       const detailsModal = ui.createTaskDetailsModal(task);
       document.body.appendChild(detailsModal);    
-      this.attachTaskDetailsModalEventListeners(detailsModal, task);
+      this.attachTaskDetailsModalEventListeners(detailsModal, task, detailsButton);
+      detailsModal.querySelector(".details-textarea").focus();
     });
 
     const editButton = taskRow.querySelector(".edit-task-btn");
@@ -422,11 +461,24 @@ export const stateManager = {
     });
   },
   
-  attachTaskDetailsModalEventListeners(detailsModal, task) {
+  attachTaskDetailsModalEventListeners(detailsModal, task, detailsTrigger) {
+    const closeModal = () => {
+      detailsModal.remove();
+      if (detailsTrigger.isConnected) {
+        detailsTrigger.focus();
+      }
+    };
+
     // Close modal when clicking on overlay
     detailsModal.addEventListener("click", (event) => {
       if (event.target === detailsModal) {
-        detailsModal.remove();
+        closeModal();
+      }
+    });
+
+    detailsModal.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeModal();
       }
     });
   
@@ -434,14 +486,12 @@ export const stateManager = {
     const saveButton = detailsModal.querySelector(".save-button");
     const detailsTextarea = detailsModal.querySelector(".details-textarea");
   
-    cancelButton.addEventListener("click", () => {
-      detailsModal.remove();
-    });
+    cancelButton.addEventListener("click", closeModal);
   
     saveButton.addEventListener("click", () => {
       task.description = detailsTextarea.value;
       this.editTaskData(task);
-      detailsModal.remove();
+      closeModal();
     });
   },
 
@@ -459,6 +509,7 @@ export const stateManager = {
         .filter((task) => task.dueDate === today);
 
       ui.renderTodayTasks(tasksForToday);
+      this.collapseSidebarOnMobile();
       tasksForToday.forEach((task) => {
         this.attachTaskRowEventListeners(task);
       });
@@ -482,6 +533,7 @@ export const stateManager = {
         .filter((task) => next7Days.includes(task.dueDate));
 
       ui.renderNext7DaysTasks(tasksForNext7Days);
+      this.collapseSidebarOnMobile();
       tasksForNext7Days.forEach((task) => {
         this.attachTaskRowEventListeners(task);
       });
@@ -498,6 +550,7 @@ export const stateManager = {
       const allTasks = this.projects.map((project) => project.tasks).flat();
 
       ui.renderAllTasks(allTasks);
+      this.collapseSidebarOnMobile();
       allTasks.forEach((task) => {
         this.attachTaskRowEventListeners(task);
       });
@@ -517,6 +570,7 @@ export const stateManager = {
         .filter((task) => task.priority === "High");
 
       ui.renderImportantTasks(importantTasks);
+      this.collapseSidebarOnMobile();
       importantTasks.forEach((task) => {
         this.attachTaskRowEventListeners(task);
       });
@@ -554,6 +608,7 @@ export const stateManager = {
       iframe.width = "100%";
       iframe.height = "100%";
       iframe.allow = "autoplay;";
+      iframe.title = "Shia LaBeouf motivation video";
 
       tasksSection.innerHTML = "";
       tasksSection.appendChild(iframe);
