@@ -1,80 +1,66 @@
-# Do It - Task Management Application
+# Do It
 
-A dynamic task management web application built as part of [The Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-todo-list/) curriculum. This project demonstrates proficiency in JavaScript, DOM manipulation, and modern CSS techniques.
+A client-side task manager built with vanilla JavaScript for [The Odin Project's Todo List assignment](https://www.theodinproject.com/lessons/node-path-javascript-todo-list). It focuses on explicit state management, DOM rendering, browser persistence, and responsive, keyboard-accessible interactions without a UI framework.
 
-## Features
+[Try the live demo](https://skamprogiannis.github.io/to-do-app/)
 
-- **Project Management**
+## What it does
 
-  - Create, edit, and delete projects
-  - Organize tasks within projects
-  - Intuitive project navigation via sidebar
+- Creates, renames, and deletes projects.
+- Creates, edits, completes, and deletes tasks with descriptions, due dates, and priorities.
+- Filters tasks into Today, Next 7 Days, All Tasks, and Important views.
+- Persists projects and tasks in the browser with `localStorage`.
+- Offers an optional demo project for first-time visitors.
+- Adapts the sidebar, task rows, and dialogs for narrow screens.
+- Names icon controls, task checkboxes, and dialogs for keyboard and assistive-technology users.
 
-- **Task Management**
+All data stays in the current browser profile. There is no account system, server, or cross-device synchronization.
 
-  - Create, edit, and delete tasks
-  - Set task priorities (Low, Medium, High)
-  - Add due dates
-  - Mark tasks as complete
-  - View task details
+## Architecture
 
-- **Task Views**
+The application keeps data and rendering responsibilities separate:
 
-  - Today: View tasks due today
-  - Next 7 Days: View upcoming tasks
-  - All Tasks: View all tasks across projects
-  - Important: View high-priority tasks
+- [`src/Task.js`](src/Task.js) and [`src/Project.js`](src/Project.js) define the domain objects.
+- [`src/index.js`](src/index.js) owns application state, persistence, filtering, and interaction handlers.
+- [`src/ui.js`](src/ui.js) creates and updates DOM elements.
+- [`src/testProject.js`](src/testProject.js) builds the optional first-run demo.
+- [`src/template.html`](src/template.html) and [`src/styles.css`](src/styles.css) provide the document structure and responsive visual system.
 
-- **User Interface**
+Webpack bundles the modules and copies the local icon assets into `dist/`.
 
-  - Clean, modern design
-  - Collapsible sidebar
-  - Smooth animations
-  - Responsive layout
-  - Scrollable task and project lists
+## Run locally
 
-- **Data Persistence**
-  - Local storage implementation
-  - Demo project available for new users
+Node.js 22.15 or newer is required by the development server.
 
-## Technical Details
+```bash
+npm ci
+npm run dev
+```
 
-- **Vanilla JavaScript** - No frameworks, demonstrating core JavaScript proficiency
-- **CSS Custom Properties** - For consistent theming and maintainable styles
-- **CSS Animations** - Smooth transitions and keyframe animations
-- **LocalStorage API** - For data persistence
-- **Date-fns Library** - For date manipulation and formatting
-- **UUID** - For unique identifier generation
+Open the local URL printed by webpack. To create a static bundle:
 
-## Demo
+```bash
+npm run build
+```
 
-First-time users are greeted with an option to load a demo project that showcases the application's features. This demo project includes various tasks with different priorities and due dates.
+## Tests
 
-## Project Structure
+The project uses Node's built-in test runner, with JSDOM for DOM-level assertions.
 
-- `src/`
-  - `index.js` - Main application logic and state management
-  - `Task.js` - Task class definition
-  - `Project.js` - Project class definition
-  - `ui.js` - UI rendering and DOM manipulation
-  - `styles.css` - Application styling
-  - `testProject.js` - Demo project implementation
+```bash
+npm test
+npm run check
+```
 
-## Future Enhancements
+`npm run check` runs the model and accessibility tests, then verifies that webpack can build the application. The same command runs in GitHub Actions.
 
-- Theme toggle (Light/Dark mode)
-- Backend integration
-- User authentication
-- Mobile responsiveness improvements
-- Task sorting and filtering
-- Data export/import functionality
+## Project status
 
-## Credits
+This is a completed learning project, not a hosted service. Its deliberately small scope is a single-user browser application; clearing site data removes its locally stored projects. GitHub Pages is published manually from the `gh-pages` branch, so the deployed demo may briefly lag behind `main` after changes.
 
-- Project specification from [The Odin Project](https://www.theodinproject.com/)
-- Icons and design inspiration from [Material Icons](https://fonts.google.com/icons)
-- Special thanks to Shia LaBeouf for motivation 😉
+## Credits and licensing
 
-## License
+- Assignment: [The Odin Project](https://www.theodinproject.com/)
+- Icons: [Material Icons by Google](https://developers.google.com/fonts/docs/material_icons), available under the Apache License 2.0
 
-This project is open source and available under the [MIT License](LICENSE).
+This repository does not currently include a license for the project source code.
