@@ -56,7 +56,7 @@ npm run check
 
 ## Project status
 
-This is a completed learning project, not a hosted service. Its deliberately small scope is a single-user browser application; clearing site data removes its locally stored projects. GitHub Pages is published manually from the `gh-pages` branch, so the deployed demo may briefly lag behind `main` after changes.
+This is a completed learning project, not a hosted service. Its deliberately small scope is a single-user browser application; clearing site data removes its locally stored projects. A dedicated GitHub Actions workflow builds and publishes the current `main` branch to GitHub Pages after CI succeeds.
 
 ## Credits and licensing
 
